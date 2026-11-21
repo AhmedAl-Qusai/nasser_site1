@@ -1,4 +1,4 @@
-# بنيان للديكورات — المرحلتان 1 و2
+# بنيان للديكورات — النسخة 3 (تصميم جديد)
 
 Next.js 14 (App Router) + TypeScript + Tailwind + Framer Motion + Lenis. تصدير ثابت (static export).
 
@@ -21,3 +21,11 @@ npm run build    # ينتج مجلد out/ جاهز للرفع (Vercel أو Hosti
 
 ## استوديو 3D
 src/components/studio/Scene.tsx (المشهد) و StudioClient.tsx (الخيارات). الخامات مولّدة برمجيًا بلا ملفات صور.
+
+
+## النسخة 3
+- هوية جديدة: ألوان الصنوبري والنحاسي والجص (متغيرات في globals.css وtailwind.config.ts)، خطوط El Messiri وReadex Pro.
+- حذفنا framer-motion وlenis وdrei: الحركة كلها CSS + IntersectionObserver (الموقع أخف).
+- انتقال بين الصفحات: ستارة CSS في src/app/template.tsx.
+- قبل/بعد: شرائح 3D تنقلب (CompareSlider.tsx).
+- الاستوديو: مشي حر (WASD + سحب للنظر + عصا حركة للجوال) في studio/Scene.tsx.

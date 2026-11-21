@@ -17,13 +17,13 @@ export default function PortfolioClient() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="تصفية الأعمال">
-        {tabs.map((t) => <button key={t.k} role="tab" aria-selected={tab === t.k} onClick={() => setTab(t.k)} className={`inline-flex items-center rounded-full border px-4 py-2 text-sm transition-colors ${tab === t.k ? 'border-navy bg-navy text-white' : 'border-line hover:border-gold'}`}>{t.l}</button>)}
+        {tabs.map((t) => <button key={t.k} role="tab" aria-selected={tab === t.k} onClick={() => setTab(t.k)} className={`inline-flex items-center rounded-full border px-4 py-2 text-sm transition-colors ${tab === t.k ? 'border-pine bg-pine text-white' : 'border-line hover:border-gold'}`}>{t.l}</button>)}
       </div>
       <ul className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
         {list.map((i) => (
           <li key={i.id}><button onClick={() => setOpen(i)} className="group relative block aspect-[4/5] w-full overflow-hidden bg-sand text-start">
             <img src={i.thumb} alt={i.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-            <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-10 text-sm text-white">{i.title}{i.kind === 'done' && <span className="ms-2 text-xs text-[#D2AE68]">قبل وبعد</span>}</span>
+            <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-10 text-sm text-white">{i.title}{i.kind === 'done' && <span className="ms-2 text-xs text-brass">قبل وبعد</span>}</span>
           </button></li>
         ))}
       </ul>
