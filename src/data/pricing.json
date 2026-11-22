@@ -1,0 +1,21 @@
+{
+  "_help": "عدّل الأسعار هنا فقط (ريال لكل متر مربع). min/max = أقل وأعلى سعر للمتر، fixedMin/fixedMax = مبلغ ثابت يُضاف للخدمة (مثل قطع السرير في غرفة النوم). بعد تعديل الأسعار الحقيقية غيّر placeholder إلى false لإخفاء تنبيه الأسعار التجريبية.",
+  "placeholder": true,
+  "currency": "ريال سعودي",
+  "round": 50,
+  "limits": { "minW": 0.5, "maxW": 15, "minH": 0.5, "maxH": 4 },
+  "services": [
+    { "id": "sliding", "label": "خزانة سحاب", "hint": "أبواب منزلقة", "icon": "DoorClosed",
+      "standard": { "min": 650, "max": 850, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1100, "max": 1500, "fixedMin": 0, "fixedMax": 0 } },
+    { "id": "hinged", "label": "خزانة مفصلية", "hint": "أبواب بمفصلات", "icon": "DoorOpen",
+      "standard": { "min": 600, "max": 800, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1000, "max": 1400, "fixedMin": 0, "fixedMax": 0 } },
+    { "id": "walkin", "label": "غرفة ملابس", "hint": "Walk-in Closet", "icon": "Shirt",
+      "standard": { "min": 750, "max": 1000, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1200, "max": 1700, "fixedMin": 0, "fixedMax": 0 } },
+    { "id": "tv", "label": "وحدة تلفزيون", "hint": "وحدة جدارية", "icon": "Tv",
+      "standard": { "min": 700, "max": 950, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1100, "max": 1500, "fixedMin": 0, "fixedMax": 0 } },
+    { "id": "coffee", "label": "ركن قهوة", "hint": "Coffee Corner", "icon": "Coffee",
+      "standard": { "min": 800, "max": 1100, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1200, "max": 1700, "fixedMin": 0, "fixedMax": 0 } },
+    { "id": "bedroom", "label": "غرفة نوم متكاملة", "hint": "سرير + خزانة + ملحقات", "icon": "BedDouble",
+      "standard": { "min": 650, "max": 850, "fixedMin": 3500, "fixedMax": 5500 }, "vip": { "min": 1100, "max": 1500, "fixedMin": 7000, "fixedMax": 11000 } }
+  ]
+}

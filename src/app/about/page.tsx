@@ -1,19 +1,14 @@
 import type { Metadata } from 'next';
 import PageHero from '@/components/PageHero';
 import CtaBand from '@/components/CtaBand';
-export const metadata: Metadata = { title: 'من نحن | بنيان للديكورات', description: 'مؤسسة بنيان للديكورات متخصصة في الدهانات والديكورات في الأحساء: تصميم وتنفيذ بإشراف معلم دهانات محترف.', alternates: { canonical: '/about/' } };
-const why = ['خبرة طويلة في مجال الدهانات والديكور', 'جودة عالية في المواد المستخدمة', 'أسعار مناسبة وتنافسية', 'سرعة تنفيذ والتزام بالمواعيد', 'دقة في العمل والتشطيب النهائي'];
+import { why } from '@/data/siteConfig';
+export const metadata: Metadata = { title: 'من نحن | بنيان للديكورات', description: 'بنيان للديكورات في الأحساء: تصميم وتفصيل وتركيب الخزائن وغرف الملابس وغرف النوم والأثاث بخشب MDF على مقاس مساحتك.', alternates: { canonical: '/about/' } };
 export default function Page() {
-  return (<>
-    <PageHero title="من نحن" text="مؤسسة بنيان للديكورات: رؤيتنا في عالم التصميم والتشطيب." crumbs={[{ label: 'من نحن' }]} />
+  return (<><PageHero title="من نحن" text="نصمّم لأسلوب حياتك، لا لمقاسٍ جاهز." crumbs={[{ label: 'من نحن' }]} />
     <div className="mx-auto grid max-w-6xl items-start gap-12 px-5 py-14 md:grid-cols-2 md:py-20">
-      <div>
-        <h2 className="font-display text-3xl font-semibold">لماذا تختار بنيان للديكورات؟</h2>
-        <p className="mt-5 leading-9">نحن مؤسسة متخصصة في الدهانات والديكورات في الأحساء، نقدم خدمات متكاملة تشمل التصميم والتنفيذ بأحدث الأساليب. نعمل بإشراف معلم دهانات محترف بخبرة طويلة، ونحرص على نتائج تجمع بين الجودة العالية والمظهر الأنيق لنضمن لك نتيجة تفوق توقعاتك.</p>
-        <ul className="mt-7 space-y-3 border-s-2 border-gold ps-5">{why.map((w) => <li key={w}>{w}</li>)}</ul>
-      </div>
-      <img src="/images/work/t1pro1-after.webp" alt="مشروع منفّذ لجدار تلفزيون بإضاءة مخفية" className="aspect-[4/5] w-full object-cover" />
-    </div>
-    <CtaBand />
-  </>);
+      <div><h2 className="font-display text-3xl font-bold">بنيان للديكورات</h2>
+        <p className="mt-5 leading-9">نتخصص في تصميم وتفصيل الخزائن وغرف الملابس وغرف النوم والأثاث من خشب MDF في الأحساء. نبدأ معك من الفكرة والمقاسات، ونرسم لك التصميم ونعرض الخامات والألوان، ثم نصنّع ونركّب بدقة ونظافة.</p>
+        <div className="mt-8 space-y-5">{why.map((w) => <div key={w.title}><h3 className="font-semibold text-gold">{w.title}</h3><p className="text-muted">{w.text}</p></div>)}</div></div>
+      <div className="arch aspect-[4/5] w-full max-w-[420px] justify-self-center overflow-hidden bg-sand"><img src="/images/work/t2pro2-after.webp" alt="خزانة منزلقة بإضاءة داخلية منفّذة" className="h-full w-full object-cover" /></div>
+    </div><CtaBand /></>);
 }

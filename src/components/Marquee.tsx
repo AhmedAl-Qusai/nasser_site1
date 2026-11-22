@@ -1,6 +1,6 @@
-import { services } from '@/data/services';
+import { services16 } from '@/data/services16';
 export default function Marquee() {
-  const row = services.map((s) => s.title);
+  const row = services16.map((s) => s.title);
   return (
     <div dir="ltr" aria-hidden className="overflow-hidden bg-pine py-4 text-brass">
       <div className="marq flex w-max gap-10 whitespace-nowrap font-display text-xl">

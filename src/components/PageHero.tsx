@@ -1,7 +1,7 @@
 import Link from 'next/link';
 export default function PageHero({ title, text, crumbs }: { title: string; text?: string; crumbs: { label: string; href?: string }[] }) {
   return (
-    <section className="relative overflow-hidden rounded-b-[3rem] bg-pine px-5 pb-14 pt-32 text-white md:pb-20 md:pt-40">
+    <section className="relative overflow-hidden rounded-b-[3rem] bg-pine px-5 pb-14 pt-44 text-white md:pb-20 md:pt-52">
       <span aria-hidden className="pointer-events-none absolute -start-24 top-10 h-96 w-96 rounded-full border border-brass/25" />
       <span aria-hidden className="pointer-events-none absolute -start-10 top-24 h-72 w-72 rounded-full border border-brass/15" />
       <div className="relative mx-auto max-w-6xl">

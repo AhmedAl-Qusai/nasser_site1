@@ -29,3 +29,20 @@ src/components/studio/Scene.tsx (المشهد) و StudioClient.tsx (الخيار
 - انتقال بين الصفحات: ستارة CSS في src/app/template.tsx.
 - قبل/بعد: شرائح 3D تنقلب (CompareSlider.tsx).
 - الاستوديو: مشي حر (WASD + سحب للنظر + عصا حركة للجوال) في studio/Scene.tsx.
+
+
+## النسخة 4 (إعادة هيكلة: خزائن وغرف نوم وأثاث)
+- الأقسام في src/data/categories.ts (خزائن، غرف ملابس، غرف نوم، أثاث) وتولّد صفحات /products/[slug] تلقائيًا.
+- الأعمال في src/data/works.ts: أضف صورك الجديدة هناك (category: closets | walkin | bedrooms | furniture) وضع before اختياريًا.
+- المقالات في src/data/articles.ts، والأسئلة الشائعة في src/data/faqs.ts.
+- أرقامك (سنوات الخبرة، عدد المشاريع...) في src/data/siteConfig.ts داخل stats وتظهر تلقائيًا.
+- الاستوديو: وضعان (خزائن وغرفة ملابس / غرفة نوم) في src/components/studio.
+
+
+## النسخة 5 (حسب وثيقة المواصفات)
+- الأسعار: src/data/pricing.json (عدّلها من GitHub مباشرة ثم غيّر placeholder إلى false).
+- الباقات: src/data/bundles.ts | جواز الجودة: quality.ts | الخدمات الـ16: services16.ts
+- غرفة النوم التفاعلية: src/data/hotspots.ts (غيّر الصورة والإحداثيات)
+- آراء العملاء: testimonials.ts (القسم لا يظهر إلا بعد إضافة آراء حقيقية)
+- النصوص العامة والمدن وشريط الإعلان: siteConfig.ts
+- التتبع: انسخ المتغيرات من .env.example إلى Vercel (GA / Meta Pixel / TikTok Pixel / Search Console)

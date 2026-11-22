@@ -2,71 +2,106 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
-export type Mat = { id: string; label: string; kind: 'marble' | 'wood' | 'flute' | 'paint'; base: string; accent: string };
-export type Zone = 'main' | 'side' | 'floor' | 'light';
-export type Cfg = { main: Mat; side: string; floor: Mat; led: boolean; ledColor: string; ledLevel: number; night: boolean };
+export type Mat = { id: string; label: string; kind: 'marble' | 'wood' | 'paint'; base: string; accent: string };
+export type Zone = 'doors' | 'bed' | 'side' | 'floor' | 'light';
+export type Mode = 'wardrobe' | 'bedroom';
+export type Cfg = { mode: Mode; doors: Mat; style: 'flat' | 'grooved' | 'glass'; kind: 'hinged' | 'sliding'; handle: 'hidden' | 'gold' | 'black'; open: boolean; head: Mat; bed: string; side: string; floor: Mat; led: boolean; ledColor: string; ledLevel: number; night: boolean };
 export type Ctl = { move: { current: { x: number; y: number } }; onPick: (z: Zone) => void };
 const rng = (s: number) => () => { s |= 0; s = (s + 0x6d2b79f5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 function makeTex(m: Mat, rep = 0) {
   const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d')!; const r = rng(7);
   g.fillStyle = m.base; g.fillRect(0, 0, 512, 512); g.strokeStyle = m.accent;
   if (m.kind === 'marble') for (let i = 0; i < 16; i++) { g.globalAlpha = 0.15 + r() * 0.35; g.lineWidth = 0.6 + r() * 2.4; g.beginPath(); let x = r() * 512, y = 0; g.moveTo(x, y); for (let k = 0; k < 6; k++) { x += (r() - 0.5) * 140; y += 90; g.quadraticCurveTo(x + (r() - 0.5) * 80, y - 45, x, y); } g.stroke(); }
-  if (m.kind === 'wood') { for (let x = 0; x < 512; x += 2) { g.globalAlpha = 0.08 + r() * 0.22; g.lineWidth = 1; g.beginPath(); g.moveTo(x, 0); g.bezierCurveTo(x + r() * 6, 170, x - r() * 6, 340, x + r() * 4, 512); g.stroke(); } g.globalAlpha = 0.55; g.lineWidth = 2; for (let x = 0; x < 512; x += 128) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 512); g.stroke(); } }
-  if (m.kind === 'flute') for (let x = 0; x < 512; x += 32) { const gr = g.createLinearGradient(x, 0, x + 32, 0); gr.addColorStop(0, m.base); gr.addColorStop(0.5, m.accent); gr.addColorStop(1, m.base); g.globalAlpha = 1; g.fillStyle = gr; g.fillRect(x, 0, 32, 512); }
+  if (m.kind === 'wood') { for (let x = 0; x < 512; x += 2) { g.globalAlpha = 0.08 + r() * 0.22; g.lineWidth = 1; g.beginPath(); g.moveTo(x, 0); g.bezierCurveTo(x + r() * 6, 170, x - r() * 6, 340, x + r() * 4, 512); g.stroke(); } }
   g.globalAlpha = 1; const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
   if (rep) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep, rep); } return t;
 }
-const B = { minX: -4.55, maxX: 4.55, minZ: -5.2, maxZ: 4.55 };
-const BOXES: [number, number, number, number][] = [[0, -2.2, 1.75, 0.6], [0, -3.5, 0.65, 0.65], [0, -5.45, 1.45, 0.35], [-2.4, 1.6, 1.4, 0.9], [4, -5, 0.45, 0.45], [3.5, -4.2, 0.3, 0.3]];
+type V3 = [number, number, number];
+const Box = ({ p, s, c, onClick, r = 0 }: { p: V3; s: V3; c: string; onClick?: (e: ThreeEvent<MouseEvent>) => void; r?: number }) => (<mesh position={p} rotation={[0, r, 0]} onClick={onClick}><boxGeometry args={s} /><meshLambertMaterial color={c} /></mesh>);
+type LedP = { color: string; emissive: string; emissiveIntensity: number };
+const Led = ({ p, s, m }: { p: V3; s: V3; m: LedP }) => (<mesh position={p}><boxGeometry args={s} /><meshStandardMaterial {...m} /></mesh>);
+const CLOTH = ['#d9d2c5', '#8c9a8f', '#2f3b4a', '#b08f6a', '#c9a0a0', '#4a4f55', '#e6dcc8'];
+type Pick = (z: Zone) => (e: ThreeEvent<MouseEvent>) => void;
+function Door({ i, n, bw, h, d, cfg, tex, pick }: { i: number; n: number; bw: number; h: number; d: number; cfg: Cfg; tex: THREE.Texture; pick: Pick }) {
+  const g = useRef<THREE.Group>(null); const t = useRef(0);
+  const sliding = cfg.kind === 'sliding'; const cx = -(n * bw) / 2 + (i + 0.5) * bw; const s = i % 2 === 0 ? 1 : -1; const dir = i < n / 2 ? 1 : -1;
+  const lane = sliding && i % 2 ? 0.05 : 0; const dw = sliding ? bw * 1.04 : bw - 0.008; const dh = h - 0.04; const off = sliding ? 0 : -s * dw / 2;
+  useFrame((_, dt) => {
+    const o = g.current; if (!o) return; t.current += ((cfg.open ? 1 : 0) - t.current) * Math.min(1, dt * 5);
+    if (sliding) o.position.x = cx + dir * t.current * bw * 0.96; else o.rotation.y = s * t.current * 1.7;
+  });
+  const mat = cfg.style === 'glass' ? <meshStandardMaterial color="#8fa39e" transparent opacity={0.3} roughness={0.08} /> : <meshStandardMaterial map={tex} roughness={0.5} />;
+  const hx = sliding ? dir * (dw / 2 - 0.06) : -s * (dw / 2 - 0.06);
+  return (
+    <group ref={g} position={[sliding ? cx : cx + s * bw / 2, h / 2, d / 2 + 0.014 + lane]}>
+      <group position={[off, 0, 0]}>
+        <mesh onClick={pick('doors')}><boxGeometry args={[dw, dh, 0.026]} />{mat}</mesh>
+        {cfg.style === 'glass' && [[-dw / 2 + 0.03, 0, 0.04, dh], [dw / 2 - 0.03, 0, 0.04, dh], [0, dh / 2 - 0.03, dw, 0.04], [0, -dh / 2 + 0.03, dw, 0.04]].map(([x, y, w, hh], k) => (<mesh key={k} position={[x, y, 0.002]}><boxGeometry args={[w, hh, 0.03]} /><meshStandardMaterial map={tex} roughness={0.5} /></mesh>))}
+        {cfg.style === 'grooved' && [-dw / 4, 0, dw / 4].map((x) => (<mesh key={x} position={[x, 0, 0.0145]}><boxGeometry args={[0.012, dh - 0.12, 0.002]} /><meshBasicMaterial color="#000" transparent opacity={0.28} /></mesh>))}
+        {cfg.handle !== 'hidden' && <mesh position={[hx, 0, 0.03]}><boxGeometry args={[0.022, 0.55, 0.03]} /><meshStandardMaterial color={cfg.handle === 'gold' ? '#c9a24f' : '#16181a'} metalness={0.7} roughness={0.3} /></mesh>}
+      </group>
+    </group>
+  );
+}
+function Wardrobe({ n, bw, h, d, cfg, tex, m, pick }: { n: number; bw: number; h: number; d: number; cfg: Cfg; tex: THREE.Texture; m: LedP; pick: Pick }) {
+  const W = n * bw, x0 = -W / 2, inner = '#e8e2d6';
+  return (<group>
+    <Box p={[0, h / 2, -d / 2 + 0.01]} s={[W, h, 0.02]} c={inner} />
+    {Array.from({ length: n + 1 }, (_, i) => <Box key={i} p={[x0 + i * bw, h / 2, 0]} s={[0.03, h, d]} c={inner} />)}
+    <Box p={[0, h - 0.015, 0]} s={[W, 0.03, d]} c={inner} /><Box p={[0, 0.06, 0.02]} s={[W, 0.12, d - 0.04]} c="#2c2c2c" />
+    {Array.from({ length: n }, (_, i) => { const cx = x0 + (i + 0.5) * bw, ty = i % 3;
+      return (<group key={i}>
+        <Led p={[cx - bw / 2 + 0.05, h / 2, d / 2 - 0.07]} s={[0.012, h - 0.3, 0.012]} m={m} />
+        {ty !== 1 && <mesh position={[cx, ty === 0 ? 2.0 : 1.7, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.012, 0.012, bw - 0.08, 8]} /><meshStandardMaterial color="#9a9a9a" metalness={0.8} roughness={0.3} /></mesh>}
+        {ty !== 1 && Array.from({ length: 7 }, (_, j) => <Box key={j} p={[cx - bw / 2 + 0.14 + j * ((bw - 0.28) / 6), ty === 0 ? 1.55 : 1.4, 0]} s={[0.05, ty === 0 ? 0.85 : 0.55, 0.38]} c={CLOTH[(i + j) % 7]} />)}
+        {ty === 1 && [0.5, 0.95, 1.4, 1.85, 2.3].map((y, j) => (<group key={y}><Box p={[cx, y, 0]} s={[bw - 0.05, 0.02, d - 0.05]} c={inner} /><Box p={[cx - 0.15, y + 0.12, 0]} s={[bw * 0.5, 0.2 + (j % 2) * 0.06, d * 0.6]} c={CLOTH[(i + j + 2) % 7]} /></group>))}
+        {ty === 2 && [0.3, 0.55, 0.8].map((y) => <Box key={y} p={[cx, y, d / 2 - 0.05]} s={[bw - 0.06, 0.22, 0.02]} c="#bdb4a3" />)}
+      </group>); })}
+    {Array.from({ length: n }, (_, i) => <Door key={i} i={i} n={n} bw={bw} h={h} d={d} cfg={cfg} tex={tex} pick={pick} />)}
+  </group>);
+}
 function Room({ cfg, ctl }: { cfg: Cfg; ctl: Ctl }) {
-  const mainTex = useMemo(() => makeTex(cfg.main), [cfg.main]);
-  const floorTex = useMemo(() => makeTex(cfg.floor, 4), [cfg.floor]);
-  useEffect(() => () => mainTex.dispose(), [mainTex]); useEffect(() => () => floorTex.dispose(), [floorTex]);
-  const k = cfg.led ? cfg.ledLevel : 0, col = cfg.ledColor, n = cfg.night;
-  const led = { color: cfg.led ? col : '#d8d4cb', emissive: col, emissiveIntensity: k * (n ? 3 : 2) };
-  const pick = (z: Zone) => (e: ThreeEvent<MouseEvent>) => { if (e.delta > 6) return; e.stopPropagation(); ctl.onPick(z); };
-  const ceil = '#f1ede4'; const paint = cfg.main.kind === 'paint';
-  const L = ({ p, s, z = 'light' as Zone }: { p: [number, number, number]; s: [number, number, number]; z?: Zone }) => (<mesh position={p} onClick={pick(z)}><boxGeometry args={s} /><meshStandardMaterial {...led} /></mesh>);
+  const doorTex = useMemo(() => makeTex(cfg.doors), [cfg.doors]); const headTex = useMemo(() => makeTex(cfg.head), [cfg.head]); const floorTex = useMemo(() => makeTex(cfg.floor, 4), [cfg.floor]);
+  useEffect(() => () => doorTex.dispose(), [doorTex]); useEffect(() => () => headTex.dispose(), [headTex]); useEffect(() => () => floorTex.dispose(), [floorTex]);
+  const k = cfg.led ? cfg.ledLevel : 0, col = cfg.ledColor, n = cfg.night, bed = cfg.mode === 'bedroom';
+  const m: LedP = { color: cfg.led ? col : '#d8d4cb', emissive: col, emissiveIntensity: k * (n ? 3 : 2) };
+  const pick: Pick = (z) => (e) => { if (e.delta > 6) return; e.stopPropagation(); ctl.onPick(z); };
+  const ceil = '#f1ede4'; const dm = (map: THREE.Texture) => <meshStandardMaterial map={map} roughness={0.5} />;
   return (<>
     <color attach="background" args={[n ? '#070b12' : '#cfe3f5']} />
-    <ambientLight intensity={n ? 0.3 : 1.1} /><directionalLight position={[8, 6, 1]} intensity={n ? 0.05 : 1.6} />
-    <pointLight position={[0, 2.9, -1.2]} color={col} intensity={k * (n ? 26 : 14)} distance={9} />
-    <pointLight position={[0, 2.9, 2.5]} color={col} intensity={k * (n ? 20 : 10)} distance={8} />
-    <pointLight position={[0, 2.6, -5.1]} color={col} intensity={k * (n ? 16 : 8)} distance={6} />
-    <pointLight position={[3.5, 1.5, -4.2]} color="#ffcf99" intensity={n ? 9 : 0} distance={6} />
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -0.3]} onClick={pick('floor')}><planeGeometry args={[10, 10.5]} /><meshStandardMaterial map={floorTex} roughness={0.35} /></mesh>
-    <mesh position={[0, 1.6, -5.25]}><planeGeometry args={[10, 3.2]} /><meshLambertMaterial color={cfg.side} /></mesh>
-    <mesh position={[-5, 1.6, -0.3]} rotation={[0, Math.PI / 2, 0]} onClick={pick('side')}><planeGeometry args={[10.5, 3.2]} /><meshLambertMaterial color={cfg.side} /></mesh>
-    <mesh position={[5, 1.6, -0.3]} rotation={[0, -Math.PI / 2, 0]} onClick={pick('side')}><planeGeometry args={[10.5, 3.2]} /><meshLambertMaterial color={cfg.side} /></mesh>
-    <mesh position={[0, 1.6, 4.95]} rotation={[0, Math.PI, 0]} onClick={pick('side')}><planeGeometry args={[10, 3.2]} /><meshLambertMaterial color={cfg.side} /></mesh>
-    <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 3.2, -0.3]}><planeGeometry args={[10, 10.5]} /><meshLambertMaterial color={ceil} /></mesh>
-    <mesh position={[0, 3.12, -0.3]}><boxGeometry args={[8.4, 0.16, 9]} /><meshLambertMaterial color={ceil} /></mesh>
-    <L p={[0, 3.03, -4.82]} s={[8.5, 0.03, 0.05]} /><L p={[0, 3.03, 4.22]} s={[8.5, 0.03, 0.05]} /><L p={[-4.22, 3.03, -0.3]} s={[0.05, 0.03, 9.1]} /><L p={[4.22, 3.03, -0.3]} s={[0.05, 0.03, 9.1]} />
-    <mesh position={[0, 2.55, -0.3]} rotation={[Math.PI / 2, 0, 0]} onClick={pick('light')}><torusGeometry args={[0.75, 0.035, 8, 40]} /><meshStandardMaterial {...led} /></mesh>
-    <mesh position={[0, 1.5, -5.15]} onClick={pick('main')}><boxGeometry args={[5, 2.7, 0.12]} /><meshStandardMaterial map={paint ? null : mainTex} color={paint ? cfg.main.base : '#ffffff'} roughness={cfg.main.kind === 'marble' ? 0.25 : 0.65} /></mesh>
-    <L p={[-2.55, 1.5, -5.05]} s={[0.03, 2.7, 0.03]} /><L p={[2.55, 1.5, -5.05]} s={[0.03, 2.7, 0.03]} />
-    <mesh position={[0, 1.75, -5.05]}><boxGeometry args={[1.9, 1.07, 0.05]} /><meshStandardMaterial color="#06080b" roughness={0.2} /></mesh>
-    <mesh position={[0, 0.55, -4.9]}><boxGeometry args={[2.8, 0.3, 0.45]} /><meshLambertMaterial color="#6b4a30" /></mesh>
-    <L p={[0, 0.38, -4.7]} s={[2.6, 0.02, 0.03]} />
-    <mesh position={[-4.95, 1.7, -1.5]} rotation={[0, Math.PI / 2, 0]} onClick={pick('side')}><circleGeometry args={[0.58, 40]} /><meshStandardMaterial color="#d6dedc" metalness={0.15} roughness={0.08} emissive="#9fb0ad" emissiveIntensity={0.25} /></mesh>
-    <mesh position={[-4.94, 1.7, -1.5]} rotation={[0, Math.PI / 2, 0]}><torusGeometry args={[0.62, 0.02, 8, 40]} /><meshStandardMaterial {...led} /></mesh>
-    <mesh position={[4.97, 1.8, -0.8]} rotation={[0, -Math.PI / 2, 0]}><planeGeometry args={[6, 2.2]} /><meshBasicMaterial color={n ? '#16233a' : '#d6ebff'} /></mesh>
-    {[-4.2, 2.4].map((z) => (<mesh key={z} position={[4.85, 1.5, z]}><boxGeometry args={[0.15, 3, 1.1]} /><meshLambertMaterial color="#d9cebd" /></mesh>))}
-    <mesh position={[0, 0.012, -3]}><boxGeometry args={[4.2, 0.02, 3.2]} /><meshLambertMaterial color="#cdc3b1" /></mesh>
-    <mesh position={[0, 0.25, -2.2]}><boxGeometry args={[3.2, 0.42, 1]} /><meshLambertMaterial color="#8d8779" /></mesh>
-    <mesh position={[0, 0.68, -1.78]}><boxGeometry args={[3.2, 0.6, 0.2]} /><meshLambertMaterial color="#8d8779" /></mesh>
-    {[-1.65, 1.65].map((x) => (<mesh key={x} position={[x, 0.45, -2.2]}><boxGeometry args={[0.2, 0.55, 1]} /><meshLambertMaterial color="#7c766a" /></mesh>))}
-    <mesh position={[0, 0.2, -3.5]}><cylinderGeometry args={[0.55, 0.55, 0.36, 28]} /><meshLambertMaterial color="#5c4029" /></mesh>
-    <mesh position={[-2.4, 0.74, 1.6]}><boxGeometry args={[2.2, 0.06, 1]} /><meshLambertMaterial color="#6b4a30" /></mesh>
-    {[[-1.5, 1.3], [-1.5, 1.9], [-3.3, 1.3], [-3.3, 1.9]].map(([x, z]) => (<mesh key={`${x}${z}`} position={[x, 0.36, z]}><boxGeometry args={[0.12, 0.72, 0.12]} /><meshLambertMaterial color="#5c4029" /></mesh>))}
-    {[-3.1, -1.7].map((x) => [0.75, 2.45].map((z) => (<mesh key={`${x}${z}`} position={[x, 0.25, z]}><boxGeometry args={[0.5, 0.5, 0.5]} /><meshLambertMaterial color="#a39a88" /></mesh>)))}
-    <mesh position={[4, 0.3, -5]}><cylinderGeometry args={[0.28, 0.22, 0.6, 14]} /><meshLambertMaterial color="#b9ad98" /></mesh>
-    <mesh position={[4, 1.0, -5]}><sphereGeometry args={[0.5, 14, 12]} /><meshLambertMaterial color="#47684f" /></mesh>
-    <mesh position={[3.5, 0.75, -4.2]}><cylinderGeometry args={[0.02, 0.02, 1.5, 6]} /><meshLambertMaterial color="#2b2b2b" /></mesh>
-    <mesh position={[3.5, 1.5, -4.2]}><sphereGeometry args={[0.2, 14, 12]} /><meshStandardMaterial color="#ffe1b8" emissive="#ffcf99" emissiveIntensity={n ? 2.5 : 0.3} /></mesh>
+    <ambientLight intensity={n ? 0.3 : 1.1} /><directionalLight position={[8, 6, 1]} intensity={n ? 0.05 : 1.5} />
+    <pointLight position={[0, 2.8, -1]} color={col} intensity={k * (n ? 22 : 12)} distance={9} /><pointLight position={[0, 2.8, 2]} color={col} intensity={k * (n ? 16 : 8)} distance={8} />
+    <pointLight position={bed ? [0, 1.5, -4] : [0, 2.3, -3.8]} color={col} intensity={k * (n ? 14 : 7)} distance={5} />
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -0.5]} onClick={pick('floor')}><planeGeometry args={[8, 8]} /><meshStandardMaterial map={floorTex} roughness={0.35} /></mesh>
+    <mesh position={[0, 1.5, -4.5]} onClick={pick('side')}><planeGeometry args={[8, 3]} /><meshLambertMaterial color={cfg.side} /></mesh>
+    <mesh position={[-4, 1.5, -0.5]} rotation={[0, Math.PI / 2, 0]} onClick={pick('side')}><planeGeometry args={[8, 3]} /><meshLambertMaterial color={cfg.side} /></mesh>
+    <mesh position={[4, 1.5, -0.5]} rotation={[0, -Math.PI / 2, 0]} onClick={pick('side')}><planeGeometry args={[8, 3]} /><meshLambertMaterial color={cfg.side} /></mesh>
+    <mesh position={[0, 1.5, 3.5]} rotation={[0, Math.PI, 0]}><planeGeometry args={[8, 3]} /><meshLambertMaterial color={cfg.side} /></mesh>
+    <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 3, -0.5]} onClick={pick('light')}><planeGeometry args={[8, 8]} /><meshLambertMaterial color={ceil} /></mesh>
+    <Led p={[0, 2.97, -4.2]} s={[7.6, 0.03, 0.05]} m={m} /><Led p={[0, 2.97, 3.1]} s={[7.6, 0.03, 0.05]} m={m} /><Led p={[-3.7, 2.97, -0.5]} s={[0.05, 0.03, 7.3]} m={m} /><Led p={[3.7, 2.97, -0.5]} s={[0.05, 0.03, 7.3]} m={m} />
+    <mesh position={[3.99, 1.6, -0.5]} rotation={[0, -Math.PI / 2, 0]}><planeGeometry args={[4.5, 1.8]} /><meshBasicMaterial color={n ? '#16233a' : '#d6ebff'} /></mesh>
+    <Box p={[3.9, 1.5, -2.9]} s={[0.15, 2.9, 0.9]} c="#d9cebd" /><Box p={[3.9, 1.5, 1.9]} s={[0.15, 2.9, 0.9]} c="#d9cebd" />
+    {!bed && (<>
+      <group position={[0, 0, -4.2]}><Wardrobe n={6} bw={1.2} h={2.7} d={0.6} cfg={cfg} tex={doorTex} m={m} pick={pick} /></group>
+      <mesh position={[0, 0.44, -1.4]} onClick={pick('doors')}><boxGeometry args={[2.2, 0.88, 0.9]} />{dm(doorTex)}</mesh>
+      <Box p={[0, 0.9, -1.4]} s={[2.3, 0.04, 1]} c="#ece7dd" />{[0.25, 0.5, 0.75].map((y) => <Box key={y} p={[0, y, -0.94]} s={[2.0, 0.005, 0.01]} c="#1b1b1b" />)}
+      <Box p={[-2.6, 0.22, -1.4]} s={[0.7, 0.44, 0.7]} c="#a39a88" /><Box p={[0, 0.012, -1.4]} s={[3.6, 0.02, 2.4]} c="#cdc3b1" />
+      <mesh position={[-3.97, 1.2, -0.4]} rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[0.9, 2.1]} /><meshStandardMaterial color="#d6dedc" metalness={0.15} roughness={0.08} emissive="#9fb0ad" emissiveIntensity={0.25} /></mesh>
+    </>)}
+    {bed && (<>
+      <group position={[-3.7, 0, -0.6]} rotation={[0, Math.PI / 2, 0]}><Wardrobe n={4} bw={1.2} h={2.7} d={0.6} cfg={cfg} tex={doorTex} m={m} pick={pick} /></group>
+      <mesh position={[0, 0.95, -4.43]} onClick={pick('bed')}><boxGeometry args={[2.5, 1.3, 0.12]} />{dm(headTex)}</mesh>
+      <Led p={[0, 1.62, -4.36]} s={[2.4, 0.025, 0.03]} m={m} />
+      <mesh position={[0, 0.3, -3.4]} onClick={pick('bed')}><boxGeometry args={[2.1, 0.3, 2.2]} />{dm(headTex)}</mesh>
+      <Box p={[0, 0.6, -3.4]} s={[1.98, 0.3, 2.08]} c={cfg.bed} onClick={pick('bed')} /><Box p={[0, 0.78, -3.0]} s={[2.0, 0.1, 1.3]} c="#efeae0" onClick={pick('bed')} />
+      <Box p={[-0.5, 0.82, -4.0]} s={[0.7, 0.16, 0.4]} c="#f4f0e8" /><Box p={[0.5, 0.82, -4.0]} s={[0.7, 0.16, 0.4]} c="#f4f0e8" />
+      {[-1.5, 1.5].map((x) => (<group key={x}><mesh position={[x, 0.35, -4.25]} onClick={pick('doors')}><boxGeometry args={[0.5, 0.5, 0.4]} />{dm(doorTex)}</mesh><Led p={[x, 0.09, -4.05]} s={[0.4, 0.015, 0.02]} m={m} /><mesh position={[x, 0.72, -4.25]}><sphereGeometry args={[0.1, 12, 10]} /><meshStandardMaterial color="#ffe1b8" emissive="#ffcf99" emissiveIntensity={n ? 2.4 : 0.3} /></mesh></group>))}
+      <Box p={[0, 0.012, -3.2]} s={[3.4, 0.02, 2.6]} c="#cfc6b4" /><mesh position={[0, 0.2, -2.0]}><boxGeometry args={[1.6, 0.4, 0.45]} /><meshLambertMaterial color={cfg.bed} /></mesh>
+      <mesh position={[3.72, 0.4, -1.5]} onClick={pick('doors')}><boxGeometry args={[0.45, 0.8, 1.6]} />{dm(doorTex)}</mesh><Box p={[3.97, 1.4, -1.5]} s={[0.04, 1.0, 0.8]} c="#d6dedc" />
+    </>)}
   </>);
 }
-function Walker({ ctl }: { ctl: Ctl }) {
+function Walker({ ctl, boxes }: { ctl: Ctl; boxes: [number, number, number, number][] }) {
   const { camera, gl } = useThree();
   const st = useRef({ yaw: 0, pitch: -0.03, vx: 0, vz: 0, intro: 0 }); const keys = useRef<Record<string, boolean>>({});
   useEffect(() => {
@@ -80,23 +115,27 @@ function Walker({ ctl }: { ctl: Ctl }) {
   }, [camera, gl]);
   useFrame((_, dt0) => {
     const dt = Math.min(dt0, 0.05), s = st.current;
-    if (s.intro < 1) { s.intro = Math.min(1, s.intro + dt / 3); const e = 1 - Math.pow(1 - s.intro, 3); camera.position.set(0, THREE.MathUtils.lerp(2.6, 1.65, e), THREE.MathUtils.lerp(11, 3.7, e)); camera.rotation.set(s.pitch, s.yaw, 0); return; }
+    if (s.intro < 1) { s.intro = Math.min(1, s.intro + dt / 2.8); const e = 1 - Math.pow(1 - s.intro, 3); camera.position.set(0, THREE.MathUtils.lerp(2.4, 1.65, e), THREE.MathUtils.lerp(9, 2.9, e)); camera.rotation.set(s.pitch, s.yaw, 0); return; }
     const k = keys.current, j = ctl.move.current;
     let ix = (k.KeyD || k.ArrowRight ? 1 : 0) - (k.KeyA || k.ArrowLeft ? 1 : 0) + j.x, iz = (k.KeyW || k.ArrowUp ? 1 : 0) - (k.KeyS || k.ArrowDown ? 1 : 0) + j.y;
     const len = Math.hypot(ix, iz); if (len > 1) { ix /= len; iz /= len; }
     const sp = k.ShiftLeft || k.ShiftRight ? 4.2 : 2.3, sin = Math.sin(s.yaw), cos = Math.cos(s.yaw), a = 1 - Math.exp(-9 * dt);
     s.vx += (ix * cos - iz * sin) * sp * a - s.vx * a; s.vz += (-ix * sin - iz * cos) * sp * a - s.vz * a;
     const r = 0.28, p = camera.position, nx = p.x + s.vx * dt, nz = p.z + s.vz * dt;
-    const hit = (x: number, z: number) => x < B.minX || x > B.maxX || z < B.minZ || z > B.maxZ || BOXES.some(([cx, cz, hw, hd]) => Math.abs(x - cx) < hw + r && Math.abs(z - cz) < hd + r);
+    const hit = (x: number, z: number) => x < -3.65 || x > 3.65 || z < -4.2 || z > 3.15 || boxes.some(([cx, cz, hw, hd]) => Math.abs(x - cx) < hw + r && Math.abs(z - cz) < hd + r);
     if (!hit(nx, p.z)) p.x = nx; else s.vx = 0; if (!hit(p.x, nz)) p.z = nz; else s.vz = 0;
     p.y = 1.65; camera.rotation.set(s.pitch, s.yaw, 0);
   });
   return null;
 }
+const BOXES: Record<Mode, [number, number, number, number][]> = {
+  wardrobe: [[0, -4.2, 3.6, 0.5], [0, -1.4, 1.2, 0.55], [-2.6, -1.4, 0.4, 0.4]],
+  bedroom: [[0, -3.4, 1.1, 1.15], [1.5, -4.2, 0.3, 0.25], [-1.5, -4.2, 0.3, 0.25], [-3.7, -0.6, 0.35, 2.45], [3.7, -1.5, 0.3, 0.85], [0, -2.0, 0.85, 0.25]],
+};
 export default function Scene({ cfg, ctl }: { cfg: Cfg; ctl: Ctl }) {
   return (
-    <Canvas dpr={[1, 1.5]} camera={{ fov: 62, near: 0.1, far: 40, position: [0, 2.6, 11] }} gl={{ antialias: true, powerPreference: 'high-performance' }} style={{ touchAction: 'none' }} aria-label="استوديو ثلاثي الأبعاد: تجوّل داخل الغرفة">
-      <Room cfg={cfg} ctl={ctl} /><Walker ctl={ctl} />
+    <Canvas key={cfg.mode} dpr={[1, 1.5]} camera={{ fov: 62, near: 0.1, far: 40, position: [0, 2.4, 9] }} gl={{ antialias: true, powerPreference: 'high-performance' }} style={{ touchAction: 'none' }} aria-label="استوديو ثلاثي الأبعاد: تجوّل داخل الغرفة">
+      <Room cfg={cfg} ctl={ctl} /><Walker ctl={ctl} boxes={BOXES[cfg.mode]} />
     </Canvas>
   );
 }

@@ -12,7 +12,7 @@ export default function Page() {
       <a href={`tel:${site.phone}`} className={card}><Phone className="text-gold" /><span><b>اتصال مباشر</b><br /><span dir="ltr">{site.phone}</span></span></a>
       <a href={waLink()} className={card}><MessageCircle className="text-gold" /><span><b>واتساب</b><br />ابدأ المحادثة الآن</span></a>
       <div className={card}><Clock className="text-gold" /><span><b>ساعات العمل</b>{site.hours.map((h) => <span key={h.days} className="block text-sm text-muted">{h.days}: {h.time}</span>)}</span></div>
-      <div className={card}><MapPin className="text-gold" /><span><b>التغطية</b><br />جميع أحياء الأحساء</span></div>
+      <div className={card}><MapPin className="text-gold" /><span><b>التغطية</b><br />الدمام · الخبر · الجبيل · الأحساء</span></div>
     </div>
     <ConsultForm />
   </>);
