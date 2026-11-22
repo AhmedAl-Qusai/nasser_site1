@@ -1,7 +1,7 @@
 import { why, stats } from '@/data/siteConfig';
 export default function WhyUs() {
   return (
-    <section className="bg-sand py-24 md:py-28">
+    <section className="bg-sand py-14 sm:py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-5">
         <div data-r className="max-w-xl"><h2 className="font-display text-4xl font-bold sm:text-5xl">راحة بالك تبدأ من دقة التفاصيل.. وعود نلتزم بها كتابياً</h2>
           </div>

@@ -1,21 +1,31 @@
 {
-  "_help": "عدّل الأسعار هنا فقط (ريال لكل متر مربع). min/max = أقل وأعلى سعر للمتر، fixedMin/fixedMax = مبلغ ثابت يُضاف للخدمة (مثل قطع السرير في غرفة النوم). بعد تعديل الأسعار الحقيقية غيّر placeholder إلى false لإخفاء تنبيه الأسعار التجريبية.",
-  "placeholder": true,
+  "_help": "أسعار المتر المربع (العرض × الارتفاع) بالريال. لإضافة قسم جديد: انسخ كتلة خدمة، وضع لها designs وأسعارها. الخدمات التي designs فيها null لا تظهر في الحاسبة حتى تُملأ. unit: m2 = متر مربع، m = متر طولي.",
+  "placeholder": false,
   "currency": "ريال سعودي",
   "round": 50,
+  "vat": 0.15,
   "limits": { "minW": 0.5, "maxW": 15, "minH": 0.5, "maxH": 4 },
+  "includes": [
+    "جميع الأخشاب 18 ملم شامل الخلفية",
+    "السحابات والمفصلات من فينزا",
+    "الأطراف ملبّسة بشريط PVC بكبس حراري (12 مرحلة) من 4 جهات",
+    "شامل التوصيل والتركيب"
+  ],
+  "materials": [
+    { "id": "thai", "label": "خشب تايلندي MDF أو شيبورد", "hint": "اقتصادي" },
+    { "id": "euro", "label": "شيبورد إيطالي أو إسباني", "hint": "متوسط" },
+    { "id": "german", "label": "شيبورد ألماني (إيجر / بلوم / مصدر)", "hint": "فاخر" }
+  ],
   "services": [
-    { "id": "sliding", "label": "خزانة سحاب", "hint": "أبواب منزلقة", "icon": "DoorClosed",
-      "standard": { "min": 650, "max": 850, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1100, "max": 1500, "fixedMin": 0, "fixedMax": 0 } },
-    { "id": "hinged", "label": "خزانة مفصلية", "hint": "أبواب بمفصلات", "icon": "DoorOpen",
-      "standard": { "min": 600, "max": 800, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1000, "max": 1400, "fixedMin": 0, "fixedMax": 0 } },
-    { "id": "walkin", "label": "غرفة ملابس", "hint": "Walk-in Closet", "icon": "Shirt",
-      "standard": { "min": 750, "max": 1000, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1200, "max": 1700, "fixedMin": 0, "fixedMax": 0 } },
-    { "id": "tv", "label": "وحدة تلفزيون", "hint": "وحدة جدارية", "icon": "Tv",
-      "standard": { "min": 700, "max": 950, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1100, "max": 1500, "fixedMin": 0, "fixedMax": 0 } },
-    { "id": "coffee", "label": "ركن قهوة", "hint": "Coffee Corner", "icon": "Coffee",
-      "standard": { "min": 800, "max": 1100, "fixedMin": 0, "fixedMax": 0 }, "vip": { "min": 1200, "max": 1700, "fixedMin": 0, "fixedMax": 0 } },
-    { "id": "bedroom", "label": "غرفة نوم متكاملة", "hint": "سرير + خزانة + ملحقات", "icon": "BedDouble",
-      "standard": { "min": 650, "max": 850, "fixedMin": 3500, "fixedMax": 5500 }, "vip": { "min": 1100, "max": 1500, "fixedMin": 7000, "fixedMax": 11000 } }
+    { "id": "closets", "label": "خزائن ملابس", "hint": "خزانة مفصّلة بالمقاس", "icon": "DoorClosed", "unit": "m2",
+      "designs": [
+        { "id": "open", "label": "بدون أبواب", "hint": "رفوف وأقسام مفتوحة", "prices": { "thai": 650, "euro": 750, "german": 850 } },
+        { "id": "wood", "label": "أبواب خشب", "hint": "أبواب خشبية كاملة", "prices": { "thai": 750, "euro": 850, "german": 950 } },
+        { "id": "glass", "label": "أبواب زجاج", "hint": "أبواب زجاج بإطار", "prices": { "thai": 850, "euro": 950, "german": 1050 } }
+      ] },
+    { "id": "walkin", "label": "غرفة ملابس", "hint": "Walk-in Closet", "icon": "Shirt", "unit": "m2", "designs": null },
+    { "id": "tv", "label": "وحدة تلفزيون", "hint": "وحدة جدارية", "icon": "Tv", "unit": "m2", "designs": null },
+    { "id": "coffee", "label": "ركن قهوة", "hint": "Coffee Corner", "icon": "Coffee", "unit": "m2", "designs": null },
+    { "id": "bedroom", "label": "غرفة نوم متكاملة", "hint": "سرير + خزانة + ملحقات", "icon": "BedDouble", "unit": "m2", "designs": null }
   ]
 }

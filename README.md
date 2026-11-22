@@ -46,3 +46,9 @@ src/components/studio/Scene.tsx (المشهد) و StudioClient.tsx (الخيار
 - آراء العملاء: testimonials.ts (القسم لا يظهر إلا بعد إضافة آراء حقيقية)
 - النصوص العامة والمدن وشريط الإعلان: siteConfig.ts
 - التتبع: انسخ المتغيرات من .env.example إلى Vercel (GA / Meta Pixel / TikTok Pixel / Search Console)
+
+
+## النسخة 6
+- الأسعار الحقيقية للخزائن في src/data/pricing.json (سعر المتر المربع حسب الخامة ونوع الأبواب). لإضافة قسم جديد املأ designs لخدمته.
+- إضافة الصور بدون كود: اقرأ IMAGES.md
+- استوديو 3D لخمسة أقسام: خزائن، غرفة ملابس، غرفة نوم، وحدة تلفزيون، ركن قهوة (رابط مباشر: /studio/?mode=tv ...).

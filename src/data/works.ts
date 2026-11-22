@@ -1,5 +1,5 @@
 // معرض الأعمال: أضف صورك الجديدة هنا. category: walkin (غرف ملابس وخزائن) | bedrooms | living (وحدات معيشة) | renovation (ترميم وتطوير)
-export type Work = { id: string; title: string; note: string; category: 'walkin' | 'bedrooms' | 'living' | 'renovation'; after: string; before?: string };
+export type Work = { id: string; title: string; note?: string; category: 'walkin' | 'bedrooms' | 'living' | 'renovation'; after: string; before?: string };
 export const works: Work[] = [
   { id: 't2pro1', title: 'خزانة بأبواب زجاجية في ممر', note: 'أبواب زجاج منزلقة مع إضاءة داخلية', category: 'walkin', before: '/images/work/t2pro1-before.webp', after: '/images/work/t2pro1-after.webp' },
   { id: 't2pro2', title: 'خزانة منزلقة بإضاءة داخلية', note: 'رفوف داخلية وإضاءة LED مخفية', category: 'walkin', before: '/images/work/t2pro2-before.webp', after: '/images/work/t2pro2-after.webp' },
@@ -14,4 +14,3 @@ export const works: Work[] = [
   { id: 'pra5', title: 'تصور غرفة نوم', note: 'فكرة تصميم (تصور)', category: 'bedrooms', after: '/images/gallery/pra5.webp' },
   { id: 'pra8', title: 'كونسول بخلفية خشبية', note: 'فكرة تصميم (تصور)', category: 'living', after: '/images/gallery/pra8.webp' },
 ];
-export const featured = works.filter((w) => ['t2pro1', 't2pro2', 't2pro3', 't3pro4'].includes(w.id)) as (Work & { before: string })[];

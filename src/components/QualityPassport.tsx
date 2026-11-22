@@ -2,7 +2,7 @@ import { quality } from '@/data/quality';
 import ServiceIcon from './ServiceIcon';
 export default function QualityPassport({ page = false }: { page?: boolean }) {
   return (
-    <section id="quality" className={`bg-sand ${page ? 'py-16 md:py-24' : 'py-24 md:py-28'}`}>
+    <section id="quality" className={`bg-sand ${page ? 'py-16 md:py-24' : 'py-14 sm:py-20 md:py-28'}`}>
       <div className="mx-auto max-w-6xl px-5">
         {!page && <div data-r className="max-w-2xl"><h2 className="font-display text-4xl font-bold sm:text-5xl">جواز جودة بنيان</h2><p className="mt-3 text-muted">شفافية كاملة في المواصفات، لأن الثقة تبدأ من التفاصيل.</p></div>}
         <div className={`${page ? '' : 'mt-12'} grid gap-5 sm:grid-cols-2 lg:grid-cols-4`}>

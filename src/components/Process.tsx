@@ -1,7 +1,7 @@
 import { steps } from '@/data/siteConfig';
 export default function Process() {
   return (
-    <section id="process" className="mx-auto max-w-6xl px-5 pb-24 md:pb-32">
+    <section id="process" className="mx-auto max-w-6xl px-5 pb-14 sm:pb-20 md:pb-32">
       <div data-r><h2 className="font-display text-4xl font-bold sm:text-5xl">رحلتك معنا من الفكرة إلى الواقع في 6 خطوات واضحة</h2>
         <p className="mt-3 max-w-md text-muted">من أول تواصل حتى استلام مكانك جاهزًا.</p></div>
       <ol className="mt-14 grid gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">

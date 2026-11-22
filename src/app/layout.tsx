@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { site, siteUrl } from '@/data/siteConfig';
 import Header from '@/components/Header';
@@ -8,6 +8,7 @@ import RevealObserver from '@/components/RevealObserver';
 import StickyCta from '@/components/StickyCta';
 import Analytics from '@/components/Analytics';
 
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#12302B' };
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   openGraph: { locale: 'ar_SA', siteName: 'بنيان للديكورات', type: 'website' },

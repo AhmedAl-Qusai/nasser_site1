@@ -1,11 +1,11 @@
-export type Service = { id: string; title: string; desc: string; icon: string; link?: string };
+export type Service = { id: string; title: string; desc: string; icon: string; link?: string; studio?: string };
 export const services16: Service[] = [
-  { id: 'closets', title: 'حلول الخزائن', desc: 'خزائن ملابس بأبواب سحاب ومفصلية وزجاجية بتقسيمات ذكية.', icon: 'DoorClosed', link: '/products/closets/' },
-  { id: 'bedrooms', title: 'غرف النوم', desc: 'تصميم وتصنيع غرف النوم الرئيسية والأطفال بهوية متناغمة.', icon: 'BedDouble', link: '/products/bedrooms/' },
-  { id: 'walkin', title: 'غرف الملابس (Walk-in Closets)', desc: 'توزيع مدروس للرفوف والإكسسوارات مع إضاءة LED مدمجة.', icon: 'Shirt', link: '/products/walk-in-closets/' },
-  { id: 'tv', title: 'وحدات التلفزيون', desc: 'وحدات جدارية ومكتبات عصرية مع إخفاء تام للأسلاك.', icon: 'Tv', link: '/products/furniture/' },
+  { id: 'closets', studio: 'closets', title: 'حلول الخزائن', desc: 'خزائن ملابس بأبواب سحاب ومفصلية وزجاجية بتقسيمات ذكية.', icon: 'DoorClosed', link: '/products/closets/' },
+  { id: 'bedrooms', studio: 'bedroom', title: 'غرف النوم', desc: 'تصميم وتصنيع غرف النوم الرئيسية والأطفال بهوية متناغمة.', icon: 'BedDouble', link: '/products/bedrooms/' },
+  { id: 'walkin', studio: 'walkin', title: 'غرف الملابس (Walk-in Closets)', desc: 'توزيع مدروس للرفوف والإكسسوارات مع إضاءة LED مدمجة.', icon: 'Shirt', link: '/products/walk-in-closets/' },
+  { id: 'tv', studio: 'tv', title: 'وحدات التلفزيون', desc: 'وحدات جدارية ومكتبات عصرية مع إخفاء تام للأسلاك.', icon: 'Tv', link: '/products/furniture/' },
   { id: 'display', title: 'وحدات العرض والمكتبات', desc: 'تصميم عملي وأنيق للمكتبات ورفوف العرض.', icon: 'Library', link: '/products/furniture/' },
-  { id: 'coffee', title: 'ركن القهوة (Coffee Corner)', desc: 'وحدات منظمة لاستغلال الزوايا ومنح الصالة لمسة ضيافة فاخرة.', icon: 'Coffee' },
+  { id: 'coffee', studio: 'coffee', title: 'ركن القهوة (Coffee Corner)', desc: 'وحدات منظمة لاستغلال الزوايا ومنح الصالة لمسة ضيافة فاخرة.', icon: 'Coffee' },
   { id: 'entry', title: 'خزائن المداخل', desc: 'وحدات تنظيم للأحذية والمعاطف مع مقاعد جلوس مريحة.', icon: 'DoorOpen' },
   { id: 'laundry', title: 'غرف الغسيل', desc: 'استغلال المساحات الضيقة لترتيب الغسالات ومواد التنظيف بذكاء.', icon: 'WashingMachine' },
   { id: 'vanity', title: 'وحدات المغاسل', desc: 'تفصيل وحدات مغاسل بخامات متينة ومقاومة للماء والرطوبة.', icon: 'Bath' },

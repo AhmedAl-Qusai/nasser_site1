@@ -19,8 +19,8 @@ export default function Footer() {
             <li><a href={site.tiktok} target="_blank" rel="noopener noreferrer" className="hover:text-brass">تيك توك</a> · <a href={waLink()} className="hover:text-brass">واتساب</a></li>
           </ul></div>
       </div>
-      <p aria-hidden className="select-none whitespace-nowrap text-center font-display text-[22vw] leading-[.8] text-white/[.06]">BUNYAN</p>
-      <div className="border-t border-white/10 py-5 text-center text-xs text-white/50">جميع الحقوق محفوظة © 2026 بنيان (BONYAN) · designed by Ahmed Al-qusai</div>
+      <p aria-hidden className="select-none whitespace-nowrap text-center font-display text-[22vw] leading-[.8] text-white/[.06]">BONYAN</p>
+      <div className="border-t border-white/10 pb-24 pt-5 text-center text-xs text-white/50 md:pb-5">جميع الحقوق محفوظة © 2026 بنيان (BONYAN) · designed by Ahmed Al-qusai</div>
     </footer>
   );
 }

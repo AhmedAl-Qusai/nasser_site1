@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { works, type Work } from '@/data/works';
+import type { Work } from '@/data/works';
 import CompareSlider from './CompareSlider';
 const tabs = [{ k: 'all', l: 'الكل' }, { k: 'walkin', l: 'غرف ملابس' }, { k: 'bedrooms', l: 'غرف نوم' }, { k: 'living', l: 'وحدات معيشة' }, { k: 'renovation', l: 'ترميم وتطوير' }];
-export default function PortfolioClient() {
+export default function PortfolioClient({ works }: { works: Work[] }) {
   const [tab, setTab] = useState('all'); const [open, setOpen] = useState<Work | null>(null);
   useEffect(() => { if (!open) return; const f = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(null); addEventListener('keydown', f); return () => removeEventListener('keydown', f); }, [open]);
   const list = works.filter((w) => tab === 'all' || w.category === tab);

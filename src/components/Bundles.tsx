@@ -14,7 +14,7 @@ export default function Bundles() {
     window.open(waLink(`السلام عليكم، أرغب بعرض سعر لـ ${sel?.title}.\nالمدينة: ${city}\nالجوال: ${phone}`), '_blank', 'noopener'); setSel(null);
   };
   return (
-    <section id="bundles" className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+    <section id="bundles" className="mx-auto max-w-6xl px-5 py-14 sm:py-20 md:py-32">
       <div data-r className="max-w-2xl"><h2 className="font-display text-4xl font-bold sm:text-5xl">باقات انتقالك لمنزلك الجديد</h2>
         <p className="mt-3 text-muted">خدمات متعددة في عقد واحد وبهوية واحدة، لأصحاب الفلل والشقق الجديدة.</p></div>
       <div className="mt-12 grid gap-6 md:grid-cols-3">
