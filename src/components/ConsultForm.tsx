@@ -16,10 +16,9 @@ export default function ConsultForm() {
   };
   return (
     <section id="consult" className="px-3 pb-3">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-pine px-6 py-20 text-white md:px-14">
-        <span aria-hidden className="pointer-events-none absolute -start-24 -top-24 h-80 w-80 rounded-full border border-brass/25" />
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-pine px-6 py-20 text-white md:px-14">
         <div className="relative grid gap-12 lg:grid-cols-2">
-          <div data-r><h2 className="font-display text-4xl font-bold sm:text-5xl">مساحتك تستحق الأفضل.. دعنا نبدأ التصميم اليوم!</h2>
+          <div data-r><h2 className="font-display text-[1.85rem] font-bold leading-snug sm:text-4xl md:text-5xl">مساحتك تستحق الأفضل.. دعنا نبدأ التصميم اليوم!</h2>
             <p className="mt-4 max-w-md text-white/70">احجز موعدك الآن لرفع المقاسات مجاناً واحصل على استشارة فنية مخصصة لمنزلك.</p></div>
           <div data-r className="grid gap-4" style={{ '--d': '120ms' } as React.CSSProperties}>
             <div className="grid gap-4 sm:grid-cols-2">

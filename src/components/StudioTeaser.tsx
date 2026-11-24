@@ -8,7 +8,7 @@ export default function StudioTeaser() {
         <span className="ringp absolute bottom-6 left-1/2 grid h-14 w-14 -translate-x-1/2 place-items-center rounded-full bg-brass text-brass"><Footprints className="text-pine" /></span>
       </div>
       <div data-r>
-        <h2 className="font-display text-4xl font-bold sm:text-5xl">امشِ داخل خزانتك وغرفتك قبل التصنيع</h2>
+        <h2 className="font-display text-[1.85rem] font-bold leading-snug sm:text-4xl md:text-5xl">امشِ داخل خزانتك وغرفتك قبل التصنيع</h2>
         <p className="mt-4 max-w-md text-muted">ادخل غرفة الملابس أو غرفة النوم وتجوّل فيها بحرية: افتح الأبواب، وبدّل لون الخشب والمقابض ونوع الأبواب، وشغّل الإضاءة المخفية، ثم أرسل تصميمك لنا عبر واتساب.</p>
         <Link href="/studio/" className="mt-8 inline-block rounded-full bg-pine px-8 py-4 font-medium text-white transition hover:-translate-y-0.5 hover:bg-pine2 dark:bg-brass dark:text-pine">ادخل الاستوديو</Link>
       </div>

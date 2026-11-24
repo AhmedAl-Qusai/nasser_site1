@@ -6,7 +6,7 @@ export default function RoomHotspots() {
   const [a, setA] = useState<number | null>(0);
   return (
     <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20 md:py-32">
-      <div data-r className="max-w-2xl"><h2 className="font-display text-4xl font-bold sm:text-5xl">التناغم المتكامل</h2>
+      <div data-r className="max-w-2xl"><h2 className="font-display text-[1.85rem] font-bold leading-snug sm:text-4xl md:text-5xl">التناغم المتكامل</h2>
         <p className="mt-3 text-muted">غرفة كاملة بهوية واحدة: سرير وخزانة وتكسيات وإضاءة. اضغط على النقاط لتعرف تفاصيل كل قطعة وكيف تتناغم مع بقية الغرفة.</p></div>
       <div data-r className="relative mt-10 aspect-[3/2] overflow-hidden rounded-[2rem] bg-sand">
         <img src={room.image} alt={room.alt} loading="lazy" className="h-full w-full object-cover" onClick={() => setA(null)} />

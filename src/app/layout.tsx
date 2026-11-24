@@ -8,7 +8,7 @@ import RevealObserver from '@/components/RevealObserver';
 import StickyCta from '@/components/StickyCta';
 import Analytics from '@/components/Analytics';
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#12302B' };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#2A1F1A' };
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   openGraph: { locale: 'ar_SA', siteName: 'بنيان للديكورات', type: 'website' },
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: boot }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Readex+Pro:wght@300;400;500;600&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>

@@ -12,8 +12,9 @@ export const services16: Service[] = [
   { id: 'storage', title: 'غرف التخزين والمستودعات', desc: 'حلول تنظيمية ذكية للمخازن والمساحات الكبيرة.', icon: 'Warehouse' },
   { id: 'cladding', title: 'التكسيات الخشبية والديكور الجداري', desc: 'خيارات متنوعة من بديل الخشب والتكسيات الطبيعية.', icon: 'Layers' },
   { id: 'furniture', title: 'الأثاث المخصص', desc: 'تفصيل الكنب، الكراسي، الطاولات، وتنسيق الستائر.', icon: 'Armchair', link: '/products/furniture/' },
-  { id: 'wpc', title: 'تصنيع الأبواب الداخلية (WPC)', desc: 'أبواب مقاومة للماء والرطوبة والحشرات بتشطيبات عصرية.', icon: 'RectangleVertical' },
+  { id: 'wpc', title: 'الأبواب الداخلية: خشب شيبورد - WPC', desc: 'أبواب داخلية بخيارات خشب شيبورد وWPC (المقاوم للماء والرطوبة) بتشطيبات عصرية.', icon: 'RectangleVertical' },
   { id: 'renovation', title: 'أعمال الترميم والتطوير الداخلي', desc: 'حلول تجديد شاملة للمساحات السكنية والتجارية.', icon: 'Hammer' },
   { id: 'kitchens', title: 'حلول المطابخ', desc: 'مطابخ عصرية تجمع بين الجمال العملي ومتانة الاستخدام اليومي.', icon: 'CookingPot' },
   { id: 'commercial', title: 'القطاع التجاري والضيافة', desc: 'تأثيث وتجهيز المحلات والمكاتب والفنادق والمقاهي.', icon: 'Store' },
+  { id: 'pocket', title: 'الأبواب السحب المخفي', desc: 'أبواب منزلقة مخفية بتصميم أنيق توفّر مساحة الفتح وتتناسق مع الجدار.', icon: 'MoveHorizontal' },
 ];

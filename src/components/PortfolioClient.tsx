@@ -10,8 +10,8 @@ export default function PortfolioClient({ works }: { works: Work[] }) {
   const list = works.filter((w) => tab === 'all' || w.category === tab);
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
-      <div className="flex flex-wrap gap-2" role="tablist" aria-label="تصفية الأعمال">
-        {tabs.map((t) => <button key={t.k} role="tab" aria-selected={tab === t.k} onClick={() => setTab(t.k)} className={`inline-flex items-center rounded-full border px-4 py-2 text-sm transition-colors ${tab === t.k ? 'border-pine bg-pine text-white dark:border-brass dark:bg-brass dark:text-pine' : 'border-line hover:border-gold'}`}>{t.l}</button>)}
+      <div className="noscroll -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0" role="tablist" aria-label="تصفية الأعمال">
+        {tabs.map((t) => <button key={t.k} role="tab" aria-selected={tab === t.k} onClick={() => setTab(t.k)} className={`inline-flex shrink-0 items-center rounded-full border px-4 py-2.5 text-sm transition-colors ${tab === t.k ? 'border-pine bg-pine text-white dark:border-brass dark:bg-brass dark:text-pine' : 'border-line hover:border-gold'}`}>{t.l}</button>)}
       </div>
       {list.length === 0 && <p className="mt-10 text-muted">تُضاف أعمال هذا القسم قريبًا. تواصل معنا لنرسل لك نماذج.</p>}
       <ul className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">

@@ -47,7 +47,7 @@ export default function StudioClient() {
   const pick = (z: Zone) => { setTab(z); setPanel(true); if (z === 'doors') setOpen((o) => !o); };
   const set = (n: Mode) => { start(n); };
   return (
-    <div className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[#0b1412]">
+    <div className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[#1B1310]">
       {mode ? <Scene cfg={{ mode, doors: finishes[fd], style, kind, handle, open, head: finishes[fh], bed: beds[bedc].c, side: sides[side].c, floor: floors[fl], led, ledColor: leds[lc].c, ledLevel: lv, night }} ctl={{ move, onPick: pick }} /> : (<>
         <img src="/images/work/t2pro2-after.webp" alt="" className="kb absolute inset-0 h-full w-full object-cover opacity-40" />
         <div className="absolute inset-0 grid place-content-center justify-items-center gap-5 px-6 text-center text-white">
@@ -55,16 +55,16 @@ export default function StudioClient() {
           <p className="max-w-md text-white/75">تجوّل بحرية داخل الغرفة، افتح الأبواب، وبدّل الخامات والألوان والإضاءة وشاهد النتيجة فورًا.</p>
           <div className="flex max-w-xl flex-wrap justify-center gap-2.5">{modes.map((x, i) => <button key={x.k} onClick={() => start(x.k)} className={`relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-medium ${i === 0 ? 'ringp bg-brass text-brass' : 'border border-white/40 text-white hover:border-brass'}`}><Footprints size={20} className={i === 0 ? 'text-pine' : ''} /><span className={i === 0 ? 'text-pine' : ''}>{x.l}</span></button>)}</div>
         </div></>)}
-      {mode && hint && <p className="pointer-events-none absolute inset-x-0 top-32 mx-auto w-fit max-w-[90%] rounded-full bg-black/60 px-5 py-2 text-center text-xs text-white backdrop-blur">{touch ? 'اسحب للنظر · العصا للمشي · اضغط على الباب لفتحه' : 'WASD للمشي · Shift للجري · اسحب للنظر · اضغط على الباب لفتحه'}</p>}
+      {mode && hint && <p className="pointer-events-none absolute inset-x-0 top-44 mx-auto w-fit max-w-[90%] rounded-full bg-black/60 px-5 py-2 text-center text-xs text-white backdrop-blur">{touch ? 'اسحب للنظر · العصا للمشي · اضغط على الباب لفتحه' : 'WASD للمشي · Shift للجري · اسحب للنظر · اضغط على الباب لفتحه'}</p>}
+      {mode && <div className="noscroll absolute inset-x-0 top-28 z-10 flex gap-2 overflow-x-auto px-4 sm:justify-center" role="tablist" aria-label="أقسام الاستوديو">{modes.map((x) => <button key={x.k} role="tab" aria-selected={mode === x.k} onClick={() => set(x.k)} className={`shrink-0 rounded-full px-4 py-2.5 text-sm shadow-lg backdrop-blur transition ${mode === x.k ? 'bg-brass text-pine' : 'bg-black/45 text-white hover:bg-black/60'}`}>{x.l}</button>)}</div>}
       {mode && touch && <div className="absolute bottom-24 start-5 z-10"><Joystick onMove={(x, y) => { move.current = { x, y }; }} /></div>}
       {mode && (
-        <div className="absolute inset-x-3 bottom-3 z-10 max-h-[58%] overflow-auto rounded-3xl bg-pine/90 p-3 text-white backdrop-blur-md sm:inset-x-auto sm:bottom-auto sm:end-4 sm:top-32 sm:max-h-[calc(100svh-9rem)] sm:w-80">
+        <div className="absolute inset-x-3 bottom-3 z-10 max-h-[58%] overflow-auto rounded-[28px] bg-pine/90 p-3 text-white backdrop-blur-md sm:inset-x-auto sm:bottom-auto sm:end-4 sm:top-44 sm:max-h-[calc(100svh-12rem)] sm:w-80">
           <div className="flex items-center gap-1.5">
             <div className="flex flex-1 gap-1 overflow-x-auto" role="tablist">{tabs.map((t) => <button key={t.k} role="tab" aria-selected={tab === t.k} onClick={() => { setTab(t.k); setPanel(true); }} className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm transition ${tab === t.k ? 'bg-white/15 text-brass' : 'text-white/70'}`}>{t.l}</button>)}</div>
             <button aria-label={panel ? 'طي اللوحة' : 'فتح اللوحة'} onClick={() => setPanel(!panel)} className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/10">{panel ? <ChevronDown size={16} /> : <ChevronUp size={16} />}</button>
           </div>
           {panel && (<div className="mt-3 grid gap-4">
-            <div className="flex gap-2">{modes.map((x) => <button key={x.k} aria-pressed={mode === x.k} onClick={() => set(x.k)} className={chip(mode === x.k)}>{x.l}</button>)}</div>
             {tab === 'doors' && (<>
               <div><p className="mb-2 text-xs text-white/60">لون وخامة الأبواب</p><div className="flex flex-wrap gap-2">{finishes.slice(0, 6).map((f, i) => <button key={f.id} aria-label={f.label} title={f.label} aria-pressed={i === fd} onClick={() => setFd(i)} className={dot(i === fd)} style={{ background: f.base }} />)}</div></div>
               <div><p className="mb-2 text-xs text-white/60">نوع الأبواب</p><div className="flex flex-wrap gap-2">{([['sliding', 'منزلقة'], ['hinged', 'مفصلية']] as const).map(([k, l]) => <button key={k} aria-pressed={kind === k} onClick={() => setKind(k)} className={chip(kind === k)}>{l}</button>)}</div></div>

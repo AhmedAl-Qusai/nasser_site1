@@ -41,7 +41,7 @@ src/components/studio/Scene.tsx (المشهد) و StudioClient.tsx (الخيار
 
 ## النسخة 5 (حسب وثيقة المواصفات)
 - الأسعار: src/data/pricing.json (عدّلها من GitHub مباشرة ثم غيّر placeholder إلى false).
-- الباقات: src/data/bundles.ts | جواز الجودة: quality.ts | الخدمات الـ16: services16.ts
+- الباقات: src/data/bundles.ts | جواز الجودة: quality.ts | الخدمات الـ17: services16.ts
 - غرفة النوم التفاعلية: src/data/hotspots.ts (غيّر الصورة والإحداثيات)
 - آراء العملاء: testimonials.ts (القسم لا يظهر إلا بعد إضافة آراء حقيقية)
 - النصوص العامة والمدن وشريط الإعلان: siteConfig.ts
@@ -52,3 +52,10 @@ src/components/studio/Scene.tsx (المشهد) و StudioClient.tsx (الخيار
 - الأسعار الحقيقية للخزائن في src/data/pricing.json (سعر المتر المربع حسب الخامة ونوع الأبواب). لإضافة قسم جديد املأ designs لخدمته.
 - إضافة الصور بدون كود: اقرأ IMAGES.md
 - استوديو 3D لخمسة أقسام: خزائن، غرفة ملابس، غرفة نوم، وحدة تلفزيون، ركن قهوة (رابط مباشر: /studio/?mode=tv ...).
+
+
+## النسخة 7: الهوية الجديدة (جوز ونحاس)
+- الألوان في src/app/globals.css (المتغيرات) و tailwind.config.ts. النحاسي (copper) للأزرار الرئيسية فقط.
+- الخطوط: Noto Kufi Arabic للعناوين و IBM Plex Sans Arabic للنص (layout.tsx).
+- شريط الخامات: components/FinishStrip.tsx (ألوان الخامات الحقيقية).
+- شريط أعمالك الحقيقية في الرئيسية: components/WorksStrip.tsx (يقرأ الأعمال التي لها قبل/بعد تلقائيًا).

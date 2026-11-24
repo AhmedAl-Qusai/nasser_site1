@@ -1,11 +1,13 @@
 @tailwind base; @tailwind components; @tailwind utilities;
-:root { --bg:#F3EEE6; --surface:#FBF8F3; --sand:#E7DFD2; --ink:#16201D; --muted:#56635C; --line:rgba(18,48,43,.16); --gold:#8F5E24; }
-.dark { --bg:#0B1412; --surface:#112321; --sand:#0E1C1A; --ink:#EEE7DA; --muted:#9DAFA8; --line:rgba(255,255,255,.13); --gold:#DDB06A; }
+:root { --bg:#F6F1E9; --surface:#FFFDF9; --sand:#E9DFD0; --ink:#2A1F1A; --muted:#5B4A40; --line:rgba(42,31,26,.16); --gold:#A55524; --sage:#566554; }
+.dark { --bg:#1B1310; --surface:#261A15; --sand:#211712; --ink:#F3ECE2; --muted:#B9A99C; --line:rgba(255,255,255,.14); --gold:#E4A877; --sage:#9DB09A; }
 html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
-body { background: var(--bg); color: var(--ink); font-family: 'Readex Pro', system-ui, sans-serif; line-height: 1.85; overflow-x: hidden; }
+body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif; line-height: 1.85; overflow-x: hidden; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .glass { background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-.arch { border-radius: 999px 999px 28px 28px; }
+.arch { border-radius: 28px; }
+.num { color: transparent; -webkit-text-stroke: 1.3px color-mix(in srgb, var(--ink) 50%, transparent); }
+.noscroll { scrollbar-width: none; } .noscroll::-webkit-scrollbar { display: none; }
 /* scroll reveal: يظهر المحتوى دائمًا إذا لم يعمل JS */
 .js [data-r] { opacity: 0; transform: translateY(32px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
 .js [data-r].in { opacity: 1; transform: none; }
@@ -32,7 +34,7 @@ body { background: var(--bg); color: var(--ink); font-family: 'Readex Pro', syst
 .spot::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s; background: radial-gradient(260px circle at var(--mx,50%) var(--my,50%), color-mix(in srgb, var(--gold) 24%, transparent), transparent 70%); }
 .spot:hover::before { opacity: 1; }
 /* page curtain */
-.veil { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #12302B; pointer-events: none; transform: translateY(-101%); border-radius: 0 0 50% 50% / 0 0 12vh 12vh; }
+.veil { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #2A1F1A; pointer-events: none; transform: translateY(-101%); border-radius: 0 0 50% 50% / 0 0 12vh 12vh; }
 .veil img { opacity: 0; }
 .veil.go { animation: veil .9s cubic-bezier(.76,0,.24,1) both; }
 .veil.go img { animation: vlogo .9s both; }

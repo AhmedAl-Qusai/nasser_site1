@@ -15,13 +15,13 @@ export default function Bundles() {
   };
   return (
     <section id="bundles" className="mx-auto max-w-6xl px-5 py-14 sm:py-20 md:py-32">
-      <div data-r className="max-w-2xl"><h2 className="font-display text-4xl font-bold sm:text-5xl">باقات انتقالك لمنزلك الجديد</h2>
+      <div data-r className="max-w-2xl"><h2 className="font-display text-[1.85rem] font-bold leading-snug sm:text-4xl md:text-5xl">باقات انتقالك لمنزلك الجديد</h2>
         <p className="mt-3 text-muted">خدمات متعددة في عقد واحد وبهوية واحدة، لأصحاب الفلل والشقق الجديدة.</p></div>
       <div className="mt-12 grid gap-6 md:grid-cols-3">
         {bundles.map((b, i) => (
           <article key={b.id} data-r className="spot flex flex-col rounded-[2rem] border border-line bg-surface p-8" style={{ '--d': `${i * 100}ms` } as React.CSSProperties}>
             <p className="text-xs text-gold">{b.tag}</p><h3 className="mt-1 font-display text-2xl font-semibold">{b.title}</h3>
-            <ul className="mt-6 flex-1 space-y-3">{b.items.map((it) => <li key={it} className="flex gap-3"><Check size={20} className="mt-0.5 shrink-0 text-gold" />{it}</li>)}</ul>
+            <ul className="mt-6 flex-1 space-y-3">{b.items.map((it) => <li key={it} className="flex gap-3"><Check size={20} className="mt-0.5 shrink-0 text-sage" />{it}</li>)}</ul>
             <button onClick={() => setSel(b)} className="mt-8 rounded-full bg-pine px-6 py-3.5 font-medium text-white transition hover:bg-pine2 dark:bg-brass dark:text-pine">اطلب عرض سعر للباقة</button>
           </article>))}
       </div>

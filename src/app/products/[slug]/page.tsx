@@ -34,12 +34,12 @@ export default function Page({ params }: { params: { slug: string } }) {
     </div></section>
     <section className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:py-24">
       <div><h2 className="font-display text-3xl font-bold sm:text-4xl">ما يميّز تصاميمنا</h2>
-        <ul className="mt-6 space-y-3">{c.features.map((f) => <li key={f} className="flex gap-3"><Check size={20} className="mt-1 shrink-0 text-gold" />{f}</li>)}</ul>
+        <ul className="mt-6 space-y-3">{c.features.map((f) => <li key={f} className="flex gap-3"><Check size={20} className="mt-1 shrink-0 text-sage" />{f}</li>)}</ul>
         <Link href={`/studio/?mode=${({ closets: 'closets', 'walk-in-closets': 'walkin', bedrooms: 'bedroom', furniture: 'tv' } as Record<string, string>)[c.slug]}`} className="mt-8 inline-block rounded-full bg-pine px-7 py-3.5 font-medium text-white transition hover:bg-pine2 dark:bg-brass dark:text-pine">جرّب التصميم في الاستوديو</Link></div>
       <div><h2 className="font-display text-3xl font-bold sm:text-4xl">أسئلة شائعة</h2><div className="mt-6"><Faq items={c.faq} /></div></div>
     </section>
     {rel.length > 0 && <section className="mx-auto max-w-6xl px-5 pb-16"><h2 className="font-display text-2xl font-bold">مقالات ذات صلة</h2>
-      <ul className="mt-4 space-y-2">{rel.map((a) => <li key={a.slug}><Link href={`/blog/${a.slug}/`} className="text-gold hover:underline">{a.title}</Link></li>)}</ul></section>}
+      <ul className="mt-4 space-y-2">{rel.map((a) => <li key={a.slug}><Link href={`/blog/${a.slug}/`} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">{a.title}</Link></li>)}</ul></section>}
     <CtaBand text={`مهتم بـ ${c.title}؟ أرسل لنا صور المكان ومقاساته ونرد عليك.`} />
   </>);
 }

@@ -1,9 +1,10 @@
 import { Phone, MapPin, Instagram } from 'lucide-react';
+import FinishStrip from './FinishStrip';
 import Link from 'next/link';
 import { site, navAll, waLink } from '@/data/siteConfig';
 export default function Footer() {
   return (
-    <footer className="mt-0 overflow-hidden bg-pine text-white">
+    <footer className="mt-0 overflow-hidden bg-pine text-white"><FinishStrip className="h-1.5" />
       <div className="mx-auto grid max-w-6xl gap-10 px-5 pb-10 pt-16 md:grid-cols-4">
         <div>
           <img src="/images/logo2.png" alt="شعار بنيان" width={80} height={80} className="h-20 w-20 object-contain" loading="lazy" />

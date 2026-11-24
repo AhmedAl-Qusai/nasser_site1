@@ -9,14 +9,13 @@ export default function BeforeAfter({ items }: { items: (Work & { before: string
   const [idx, setIdx] = useState(0); const p = items[idx] ?? items[0];
   if (!p) return null;
   return (
-    <section id="work" className="relative overflow-hidden rounded-[3rem] bg-pine py-24 text-white md:py-32">
-      <span aria-hidden className="pointer-events-none absolute -end-32 top-20 h-[30rem] w-[30rem] rounded-full border border-brass/20" />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-[1fr_minmax(0,440px)]">
-        <div data-r>
-          <h2 className="font-display text-4xl font-bold sm:text-5xl">من المساحة الفارغة إلى التركيب النهائي</h2>
+    <section id="work" className="relative mx-3 overflow-hidden rounded-[2rem] bg-pine py-24 text-white md:py-32">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)]">
+        <div data-r className="min-w-0">
+          <h2 className="font-display text-[1.85rem] font-bold leading-snug sm:text-4xl md:text-5xl">من المساحة الفارغة إلى التركيب النهائي</h2>
           <p className="mt-3 max-w-md text-white/70">نماذج من أعمالنا المنفّذة في الأحساء. اسحب على الصورة وشاهد المساحة تنقلب من قبل إلى بعد.</p>
-          <div className="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="المشاريع">
-            {items.map((f, i) => (<button key={f.id} role="tab" aria-selected={i === idx} onClick={() => setIdx(i)} className={`inline-flex items-center rounded-full border px-4 py-2 text-sm transition ${i === idx ? 'border-brass bg-brass text-pine' : 'border-white/25 hover:border-brass'}`}>{f.title}</button>))}
+          <div className="noscroll -mx-5 mt-7 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0" role="tablist" aria-label="المشاريع">
+            {items.map((f, i) => (<button key={f.id} role="tab" aria-selected={i === idx} onClick={() => setIdx(i)} className={`inline-flex shrink-0 items-center rounded-full border px-4 py-2.5 text-sm transition ${i === idx ? 'border-brass bg-brass text-pine' : 'border-white/25 hover:border-brass'}`}>{f.title}</button>))}
           </div>
           <p className="mt-6 text-white/85">{p.note}</p>
           <div className="mt-6 flex flex-wrap gap-3">

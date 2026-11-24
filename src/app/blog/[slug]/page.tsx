@@ -25,6 +25,6 @@ export default function Page({ params }: { params: { slug: string } }) {
         : b.t === 'h' ? <h2 key={k} className="mt-10 font-display text-2xl font-bold text-gold">{b.x}</h2>
         : <ul key={k} className="mt-4 space-y-2 border-s-2 border-gold ps-5">{(b.x as string[]).map((li) => <li key={li}>{li}</li>)}</ul>)}
       {c && <p className="mt-10 rounded-3xl bg-sand p-5">اطّلع على قسم <Link href={`/products/${c.slug}/`} className="font-semibold text-gold hover:underline">{c.title}</Link> وتصاميمه.</p>}
-      <div className="mt-10 border-t border-line pt-6"><p className="font-bold">اقرأ أيضًا</p><ul className="mt-2 space-y-1">{rel.map((r) => <li key={r.slug}><Link href={`/blog/${r.slug}/`} className="text-gold hover:underline">{r.title}</Link></li>)}</ul></div>
+      <div className="mt-10 border-t border-line pt-6"><p className="font-bold">اقرأ أيضًا</p><ul className="mt-2 space-y-1">{rel.map((r) => <li key={r.slug}><Link href={`/blog/${r.slug}/`} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">{r.title}</Link></li>)}</ul></div>
     </article><CtaBand /></>);
 }

@@ -3,7 +3,7 @@ export default {
   darkMode: 'class',
   content: ['./src/**/*.{ts,tsx}'],
   theme: { extend: {
-    colors: { bg: 'var(--bg)', surface: 'var(--surface)', sand: 'var(--sand)', ink: 'var(--ink)', muted: 'var(--muted)', line: 'var(--line)', gold: 'var(--gold)', pine: '#12302B', pine2: '#1B4540', brass: '#DDB06A', brass2: '#EBC384' },
-    fontFamily: { display: ['"El Messiri"', 'serif'], sans: ['"Readex Pro"', 'system-ui', 'sans-serif'] },
+    colors: { bg: 'var(--bg)', surface: 'var(--surface)', sand: 'var(--sand)', ink: 'var(--ink)', muted: 'var(--muted)', line: 'var(--line)', gold: 'var(--gold)', sage: 'var(--sage)', pine: '#2A1F1A', pine2: '#4A372D', brass: '#E4A877', brass2: '#EDBA90', copper: '#A55524', copper2: '#8C4619' },
+    fontFamily: { display: ['"Noto Kufi Arabic"', 'sans-serif'], sans: ['"IBM Plex Sans Arabic"', 'system-ui', 'sans-serif'] },
   } },
 } satisfies Config;

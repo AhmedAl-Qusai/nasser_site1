@@ -1,35 +1,38 @@
-import { Phone } from 'lucide-react';
 import Link from 'next/link';
+import { Phone } from 'lucide-react';
 import { site, trust } from '@/data/siteConfig';
-const W = ({ t, i }: { t: string; i: number }) => (<span className="inline-block overflow-hidden align-bottom pb-1"><span className="rise" style={{ animationDelay: `${250 + i * 110}ms` }}>{t}</span></span>);
+import FinishStrip from './FinishStrip';
+const W = ({ t, i }: { t: string; i: number }) => (<span className="inline-block overflow-hidden align-bottom pb-1"><span className="rise" style={{ animationDelay: `${200 + i * 100}ms` }}>{t}</span></span>);
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden px-5 pb-16 pt-40 md:pt-44">
-      <span aria-hidden className="pointer-events-none absolute -end-40 -top-40 h-[34rem] w-[34rem] rounded-full opacity-60 blur-3xl" style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--gold) 35%, transparent), transparent 70%)' }} />
-      <div className="relative mx-auto grid min-h-[calc(100svh-11rem)] max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
+    <section className="relative px-5 pb-12 pt-32 sm:pt-40 md:pb-20 md:pt-44">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
         <div>
-          <p dir="ltr" className="fadeup mb-5 text-start text-xs tracking-[0.3em] text-gold" style={{ animationDelay: '.1s' }}>BESPOKE CLOSETS &amp; BEDROOMS · EASTERN PROVINCE</p>
-          <h1 className="font-display text-[3rem] font-bold leading-[1.15] sm:text-6xl lg:text-[4.4rem]">
-            <W t="شكّل" i={0} /> <W t="عالمك" i={1} /> <W t="بدقة" i={2} /> <W t="المليمتر" i={3} />
-            <span className="block text-[.5em] font-semibold text-gold"><W t="مساحات" i={4} /> <W t="مصمّمة" i={5} /> <W t="لتناسب" i={6} /> <W t="أسلوب" i={7} /> <W t="حياتك" i={8} /></span>
+          <p dir="ltr" className="fadeup text-start text-[11px] tracking-[0.28em] text-gold sm:text-xs" style={{ animationDelay: '.1s' }}>BESPOKE CLOSETS &amp; BEDROOMS · EASTERN PROVINCE</p>
+          <h1 className="mt-3 font-display text-[2.35rem] font-bold leading-[1.3] sm:text-6xl lg:text-[4rem]">
+            <W t="شكّل" i={0} /> <W t="عالمك" i={1} /><br /><W t="بدقة" i={2} /> <W t="المليمتر" i={3} />
+            <span className="mt-2 block text-[.42em] font-medium leading-snug text-muted"><W t="مساحات" i={4} /> <W t="مصمّمة" i={5} /> <W t="لتناسب" i={6} /> <W t="أسلوب" i={7} /> <W t="حياتك" i={8} /></span>
           </h1>
-          <p className="fadeup mt-6 max-w-lg text-lg text-muted" style={{ animationDelay: '1.2s' }}>في <b className="text-ink">بنيان</b>، نحوّل زوايا منزلك إلى تحف عملية تدوم لسنوات. نصمّم وننفّذ الخزائن، غرف النوم، والأثاث المخصص بالكامل في ورشنا الخاصة، لنمنحك تناغماً يجمع بين فخامة التصميم واستثمار كل سنتيمتر بذكاء.</p>
-          <div className="fadeup mt-9 flex flex-wrap gap-3" style={{ animationDelay: '1.35s' }}>
-            <a href="#consult" className="rounded-full bg-pine px-7 py-4 font-medium text-white transition hover:-translate-y-0.5 hover:bg-pine2 dark:bg-brass dark:text-pine">احجز استشارتك المجانية الآن</a>
-            <Link href="/calculator/" className="inline-flex items-center gap-2 rounded-full border border-line px-7 py-4 transition hover:border-gold hover:text-gold">احسب تكلفة مشروعك في 30 ثانية</Link>
+          <p className="fadeup mt-5 max-w-lg text-[16.5px] leading-8 text-muted sm:text-lg" style={{ animationDelay: '1.1s' }}>في <b className="text-ink">بنيان</b>، نحوّل زوايا منزلك إلى تحف عملية تدوم لسنوات. نصمّم وننفّذ الخزائن، غرف النوم، والأثاث المخصص بالكامل في ورشنا الخاصة، لنمنحك تناغماً يجمع بين فخامة التصميم واستثمار كل سنتيمتر بذكاء.</p>
+          <div className="fadeup mt-7 grid gap-3 sm:flex sm:flex-wrap" style={{ animationDelay: '1.25s' }}>
+            <a href="#consult" className="flex h-[52px] items-center justify-center rounded-full bg-copper px-8 font-medium text-white transition hover:bg-copper2 active:scale-[.98] dark:bg-brass dark:text-pine dark:hover:bg-brass2">احجز استشارتك المجانية الآن</a>
+            <Link href="/calculator/" className="flex h-[52px] items-center justify-center rounded-full border border-ink/30 px-8 transition hover:border-ink active:scale-[.98]">احسب تكلفة مشروعك في 30 ثانية</Link>
           </div>
-          <ul className="fadeup mt-8 flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted" style={{ animationDelay: '1.5s' }}>{trust.map((t) => <li key={t} className="flex items-center gap-1.5"><span aria-hidden className="h-1.5 w-1.5 rounded-full bg-gold" />{t}</li>)}</ul>
-          <a href={`tel:${site.phone}`} dir="ltr" className="fadeup mt-5 inline-flex w-fit items-center gap-2 text-sm text-muted hover:text-gold" style={{ animationDelay: '1.6s' }}><Phone size={14} />{site.phone}</a>
+          <Link href="/studio/" className="fadeup mt-6 inline-flex items-center gap-3 text-sm text-muted hover:text-ink" style={{ animationDelay: '1.4s' }}>
+            <span className="flex -space-x-1.5 space-x-reverse">{['#C9A77A', '#5A3B26', '#F1EEE8', '#B9B1A4', '#667A63', '#383C3F'].map((c) => <i key={c} className="h-6 w-6 rounded-full border-2 border-bg" style={{ background: c }} />)}</span>جرّب الخامات والألوان في استوديو 3D
+          </Link>
+          <ul className="fadeup mt-6 flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-muted" style={{ animationDelay: '1.5s' }}>{trust.map((t) => <li key={t} className="flex items-center gap-1.5"><span aria-hidden className="h-1 w-1 rounded-full bg-ink/50" />{t}</li>)}</ul>
+          <a href={`tel:${site.phone}`} dir="ltr" className="fadeup mt-4 inline-flex w-fit items-center gap-2 text-sm text-muted hover:text-ink" style={{ animationDelay: '1.6s' }}><Phone size={14} />{site.phone}</a>
         </div>
-        <div className="relative mx-auto w-full max-w-[420px]">
-          <span aria-hidden className="absolute -inset-3 arch border border-gold/50" style={{ animation: 'float 8s ease-in-out infinite' }} />
-          <div className="arch relative aspect-[3/4] overflow-hidden bg-sand" data-r="mask">
-            <img src="/images/work/t2pro1-after.webp" alt="خزانة بأبواب زجاجية منزلقة وإضاءة داخلية في ممر" width={900} height={1604} fetchPriority="high" className="kb h-full w-full object-cover" />
+        <div className="relative mx-auto w-full max-w-[460px]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-sand" data-r="mask">
+            <img src="/images/work/t2pro1-after.webp" alt="خزانة بأبواب زجاجية منزلقة وإضاءة داخلية في ممر - من أعمالنا" width={900} height={1604} fetchPriority="high" className="kb h-full w-full object-cover" />
           </div>
-          <span className="float absolute -start-2 top-1/4 rounded-full bg-pine px-4 py-2 text-sm text-white shadow-xl sm:-start-6 dark:bg-brass dark:text-pine">تصميم 3D مجاناً</span>
-          <span className="float absolute -end-1 bottom-16 rounded-full bg-surface px-4 py-2 text-sm shadow-xl sm:-end-4" style={{ animationDelay: '-3s' }}>ورش خاصة</span>
+          <span className="absolute end-3 top-3 rounded-full bg-pine px-4 py-2 text-[13px] text-white shadow-lg dark:bg-brass dark:text-pine">تصميم 3D مجاناً</span>
+          <span className="absolute bottom-3 start-3 rounded-full bg-surface/95 px-4 py-2 text-[13px] shadow-lg backdrop-blur">من أعمالنا المنفّذة</span>
         </div>
       </div>
+      <div className="mx-auto mt-12 max-w-6xl overflow-hidden rounded-full md:mt-16"><FinishStrip className="h-1.5" /></div>
     </section>
   );
 }
