@@ -19,9 +19,10 @@ export default function ServicesGrid({ page = false }: { page?: boolean }) {
             <h3 className="mt-2.5 text-[15px] font-semibold leading-snug sm:mt-3 sm:text-[17px]">{s.title}</h3>
             <p className="mt-1 line-clamp-3 flex-1 text-[13px] leading-6 text-muted sm:text-[14.5px] sm:line-clamp-none">{s.desc}</p>
             <div className="mt-3 flex flex-wrap gap-x-3 gap-y-0.5 text-[13px] sm:mt-4 sm:gap-x-4 sm:text-sm">
+              {s.gallery && <Link href={s.gallery} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">معرض الصور</Link>}
               {s.link && <Link href={s.link} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">التفاصيل</Link>}
               {s.studio && <Link href={`/studio/?mode=${s.studio}`} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">جرّب في 3D</Link>}
-              {!s.link && !s.studio && <a href={waLink(`السلام عليكم، أرغب بالاستفسار عن: ${s.title}`)} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">اطلب الخدمة</a>}
+              {!s.link && !s.studio && !s.gallery && <a href={waLink(`السلام عليكم، أرغب بالاستفسار عن: ${s.title}`)} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">اطلب الخدمة</a>}
             </div>
           </article>
         ); })}

@@ -8,18 +8,57 @@ import Faq from '@/components/Faq';
 import CtaBand from '@/components/CtaBand';
 import { categories } from '@/data/categories';
 import { articles } from '@/data/articles';
+import { siteUrl } from '@/data/siteConfig';
 import { findImage } from '@/lib/img';
-export const dynamicParams = false;
+import { getWorks } from '@/lib/works';
+import WorkGallery from '@/components/WorkGallery';
 export const generateStaticParams = () => categories.map((c) => ({ slug: c.slug }));
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const c = categories.find((x) => x.slug === params.slug); if (!c) return {};
-  return { title: c.seoTitle, description: c.seoDesc, alternates: { canonical: `/products/${c.slug}/` }, openGraph: c.image ? { images: [c.image] } : undefined };
+  return {
+    title: c.seoTitle,
+    description: c.seoDesc,
+    alternates: { canonical: `/products/${c.slug}/` },
+    openGraph: { title: c.seoTitle, description: c.seoDesc, url: `${siteUrl}/products/${c.slug}/`, images: c.image ? [c.image] : undefined, locale: 'ar_SA', type: 'website' },
+    twitter: { card: 'summary_large_image', title: c.seoTitle, description: c.seoDesc, images: c.image ? [c.image] : undefined },
+  };
 }
 export default function Page({ params }: { params: { slug: string } }) {
   const c = categories.find((x) => x.slug === params.slug); if (!c) notFound();
   const cover = findImage(`/images/products/${c.slug}/cover`) ?? c.image;
   const rel = articles.filter((a) => c.articles.includes(a.slug));
+  const allWorks = getWorks();
+  const gallerySections =
+    c.slug === 'closets'
+      ? [{ title: 'معرض صور حلول الخزائن', items: allWorks.filter((w) => w.category === 'closets') }]
+      : c.slug === 'walk-in-closets'
+        ? [{ title: 'معرض صور غرف الملابس', items: allWorks.filter((w) => w.category === 'walkin') }]
+        : c.slug === 'bedrooms'
+          ? [
+              { title: 'قسم تصميم غرف النوم', items: allWorks.filter((w) => w.category === 'bedrooms' && w.subcategory === 'design') },
+              { title: 'قسم مقاسات غرف النوم', items: allWorks.filter((w) => w.category === 'bedrooms' && w.subcategory === 'dimensions') },
+            ]
+          : [
+              { title: 'وحدات التلفزيون', items: allWorks.filter((w) => w.category === 'tv') },
+              { title: 'وحدات العرض والمكتبات', items: allWorks.filter((w) => w.category === 'display') },
+            ];
+  const ldBreadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${siteUrl}/` },
+      { '@type': 'ListItem', position: 2, name: 'المنتجات', item: `${siteUrl}/products/` },
+      { '@type': 'ListItem', position: 3, name: c.title, item: `${siteUrl}/products/${c.slug}/` },
+    ],
+  };
+  const ldFaq = c.faq.length ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: c.faq.map((q) => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.a } })),
+  } : null;
   return (<>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldBreadcrumb) }} />
+    {ldFaq && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldFaq) }} />}
     <PageHero title={c.title} text={c.short} crumbs={[{ label: 'المنتجات', href: '/products/' }, { label: c.title }]} />
     <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:grid-cols-[1fr_380px] md:py-24">
       <div className="space-y-5 text-lg leading-9">{c.intro.map((t) => <p key={t}>{t}</p>)}</div>
@@ -38,6 +77,16 @@ export default function Page({ params }: { params: { slug: string } }) {
         <Link href={`/studio/?mode=${({ closets: 'closets', 'walk-in-closets': 'walkin', bedrooms: 'bedroom', furniture: 'tv' } as Record<string, string>)[c.slug]}`} className="mt-8 inline-block rounded-full bg-pine px-7 py-3.5 font-medium text-white transition hover:bg-pine2 dark:bg-brass dark:text-pine">جرّب التصميم في الاستوديو</Link></div>
       <div><h2 className="font-display text-3xl font-bold sm:text-4xl">أسئلة شائعة</h2><div className="mt-6"><Faq items={c.faq} /></div></div>
     </section>
+    {gallerySections.some((g) => g.items.length > 0) && (
+      <section className="mx-auto max-w-6xl space-y-12 px-5 pb-16">
+        {gallerySections.map((g) => g.items.length > 0 && (
+          <div key={g.title}>
+            <h2 className="mb-6 font-display text-3xl font-bold sm:text-4xl">{g.title} ({g.items.length})</h2>
+            <WorkGallery works={g.items} />
+          </div>
+        ))}
+      </section>
+    )}
     {rel.length > 0 && <section className="mx-auto max-w-6xl px-5 pb-16"><h2 className="font-display text-2xl font-bold">مقالات ذات صلة</h2>
       <ul className="mt-4 space-y-2">{rel.map((a) => <li key={a.slug}><Link href={`/blog/${a.slug}/`} className="text-ink underline decoration-gold/70 underline-offset-4 hover:text-gold">{a.title}</Link></li>)}</ul></section>}
     <CtaBand text={`مهتم بـ ${c.title}؟ أرسل لنا صور المكان ومقاساته ونرد عليك.`} />

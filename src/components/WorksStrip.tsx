@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { getWorks } from '@/lib/works';
-// صور الأعمال الحقيقية المنفّذة (التي لها قبل/بعد) في شريط أفقي
+import { getHomeShowcase } from '@/lib/works';
+// شريط أفقي يعرض نماذج من الأقسام المضافة في المعرض
 export default function WorksStrip() {
-  const items = getWorks().filter((w) => w.before).slice(0, 8);
+  const items = getHomeShowcase();
   if (items.length === 0) return null;
   return (
     <section id="works" className="py-14 sm:py-20 md:py-28">
@@ -13,7 +13,7 @@ export default function WorksStrip() {
       <ul className="noscroll mx-auto mt-8 flex max-w-6xl snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2">
         {items.map((w) => (
           <li key={w.id} className="w-[72%] shrink-0 snap-start sm:w-[36%] lg:w-[24%]">
-            <Link href="/portfolio/" className="group block">
+            <Link href={`/portfolio/?cat=${w.category}`} className="group block">
               <div className="aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-sand"><img src={w.after} alt={w.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
               <p className="mt-3 font-semibold leading-snug">{w.title}</p>{w.note && <p className="text-sm text-muted">{w.note}</p>}
             </Link>

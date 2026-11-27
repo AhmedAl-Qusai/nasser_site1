@@ -4,7 +4,7 @@ import Faq from '@/components/Faq';
 import CtaBand from '@/components/CtaBand';
 import { steps } from '@/data/siteConfig';
 import { faqs } from '@/data/faqs';
-export const metadata: Metadata = { title: 'آلية العمل: من الاستشارة إلى التركيب | بنيان للديكورات', description: 'خطوات تفصيل الخزائن وغرف النوم والأثاث في الأحساء: استشارة، رفع مقاسات، تصميم، عرض سعر، تصنيع وتركيب.', alternates: { canonical: '/process/' } };
+export const metadata: Metadata = { title: 'آلية العمل: من الاستشارة إلى التركيب | بنيان للديكورات BONYAN', description: 'خطوات تفصيل الخزائن وغرف النوم والمطابخ والأثاث في الدمام والخبر والجبيل والأحساء: استشارة، رفع مقاسات، تصميم 3D، عرض سعر، تصنيع وتركيب.', alternates: { canonical: '/process/' } };
 export default function Page() {
   return (<><PageHero title="آلية العمل" text="ست خطوات واضحة من أول فكرة إلى آخر تركيب." crumbs={[{ label: 'آلية العمل' }]} />
     <ol className="mx-auto max-w-3xl divide-y divide-line px-5 py-16 md:py-24">{steps.map((s, i) => (

@@ -3,7 +3,7 @@ import { Phone, MessageCircle, Clock, MapPin } from 'lucide-react';
 import PageHero from '@/components/PageHero';
 import ConsultForm from '@/components/ConsultForm';
 import { site, waLink } from '@/data/siteConfig';
-export const metadata: Metadata = { title: 'اتصل بنا | بنيان للديكورات', description: 'تواصل مع بنيان للديكورات في الأحساء عبر الجوال أو واتساب لحجز استشارة مجانية.', alternates: { canonical: '/contact/' } };
+export const metadata: Metadata = { title: 'اتصل بنا | بنيان للديكورات BONYAN', description: 'تواصل مع بنيان للديكورات في الدمام والخبر والجبيل والأحساء عبر الجوال أو واتساب لحجز استشارة ورفع مقاسات مجانية.', alternates: { canonical: '/contact/' } };
 const card = 'flex items-start gap-3 border border-line p-5';
 export default function Page() {
   return (<>

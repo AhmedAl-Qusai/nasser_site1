@@ -5,7 +5,7 @@ import Ph from '@/components/Ph';
 import CtaBand from '@/components/CtaBand';
 import { categories } from '@/data/categories';
 import { findImage } from '@/lib/img';
-export const metadata: Metadata = { title: 'منتجاتنا: خزائن، غرف ملابس، غرف نوم وأثاث | بنيان للديكورات', description: 'تصفّح أقسام بنيان للديكورات في الأحساء: خزائن ملابس، غرف ملابس، غرف نوم متكاملة وأثاث مفصّل بخشب MDF على مقاس مساحتك.', alternates: { canonical: '/products/' } };
+export const metadata: Metadata = { title: 'الأقسام والمنتجات: خزائن، غرف ملابس، غرف نوم وأثاث | بنيان BONYAN', description: 'تصفّح أقسام بنيان للديكورات في الدمام والخبر والجبيل والأحساء: حلول الخزائن، غرف الملابس، غرف النوم وتصاميمها ومقاساتها، ووحدات التلفزيون والعرض.', alternates: { canonical: '/products/' } };
 export default function Page() {
   return (<><PageHero title="منتجاتنا" text="استكشف أقسامنا: كل قطعة تُفصَّل على مقاس مساحتك." crumbs={[{ label: 'المنتجات' }]} />
     <div className="mx-auto max-w-6xl space-y-16 px-5 py-16 md:py-24">

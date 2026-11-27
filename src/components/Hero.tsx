@@ -25,8 +25,8 @@ export default function Hero() {
           <a href={`tel:${site.phone}`} dir="ltr" className="fadeup mt-4 inline-flex w-fit items-center gap-2 text-sm text-muted hover:text-ink" style={{ animationDelay: '1.6s' }}><Phone size={14} />{site.phone}</a>
         </div>
         <div className="relative mx-auto w-full max-w-[460px]">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-sand" data-r="mask">
-            <img src="/images/work/t2pro1-after.webp" alt="خزانة بأبواب زجاجية منزلقة وإضاءة داخلية في ممر - من أعمالنا" width={900} height={1604} fetchPriority="high" className="kb h-full w-full object-cover" />
+          <div className="relative aspect-[3/4] overflow-hidden rounded-[28px] border border-line bg-white p-1.5 shadow-xl" data-r="mask">
+            <img src="/images/works/bedrooms/dimensions/bedrooms-dimensions-25.jpg" alt="تصميم ومقاسات غرفة نوم متكاملة بتكسية خشبية وخزانة - من أعمال بنيان" width={1194} height={1600} fetchPriority="high" decoding="async" className="h-full w-full rounded-[22px] object-contain" />
           </div>
           <span className="absolute end-3 top-3 rounded-full bg-pine px-4 py-2 text-[13px] text-white shadow-lg dark:bg-brass dark:text-pine">تصميم 3D مجاناً</span>
           <span className="absolute bottom-3 start-3 rounded-full bg-surface/95 px-4 py-2 text-[13px] shadow-lg backdrop-blur">من أعمالنا المنفّذة</span>

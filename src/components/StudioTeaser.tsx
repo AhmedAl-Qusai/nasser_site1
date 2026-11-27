@@ -4,7 +4,7 @@ export default function StudioTeaser() {
   return (
     <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 md:grid-cols-2 md:py-32">
       <div data-r="mask" className="arch relative mx-auto aspect-[4/5] w-full max-w-[400px] overflow-hidden bg-sand">
-        <img src="/images/gallery/pra5.webp" alt="تصور لغرفة نوم متناسقة" className="kb h-full w-full object-cover" loading="lazy" width={800} height={800} />
+        <img src="/images/works/bedrooms/design/bedrooms-design-01.jpg" alt="تصميم غرفة نوم متناسقة" className="kb h-full w-full object-cover" loading="lazy" width={800} height={800} />
         <span className="ringp absolute bottom-6 left-1/2 grid h-14 w-14 -translate-x-1/2 place-items-center rounded-full bg-brass text-brass"><Footprints className="text-pine" /></span>
       </div>
       <div data-r>
